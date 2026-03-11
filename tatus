@@ -1,0 +1,971 @@
+[33m8a774b8[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/file-structure[m[33m)[m Add project structure: templates and static directories
+[33mb641d40[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge pull request #531 from HKLHaoBin/feature/health-check-optimization
+[33m5f5b3a4[m feat: Migrate MediaCrawler to a Git submodule and enhance MindSpider's automation capabilities (#547)
+[33md4552c0[m [DeepSentimentCrawling] 修正 MediaCrawler 数据库配置不匹配问题 (使用 postgresql 而非 postgres)
+[33me6305bb[m Update README.
+[33m947879f[m feat: migrate MediaCrawler to git submodule and enhance MindSpider automation
+[33mdc1382d[m feat: migrate MediaCrawler to git submodule and enhance MindSpider automation
+[33md4b3594[m Add .claude/ directory to .gitignore
+[33mf89d314[m feat: 优化健康检查机制
+[33m974dbe2[m chore: pin Pillow<11 to ensure compatibility with streamlit 1.28.1 (#512)
+[33m1abb1b7[m Refine keyword optimization examples and remove outdated search term suggestions in prompts.py
+[33mfd35b3c[m Update API ports for running applications (#478)
+[33mcf36e03[m Fixing dy data scraping (#400)
+[33m9bb2d32[m[33m ([m[1;33mtag: v3.0.0[m[33m)[m Enhance README-EN with MiroFish release announcement
+[33mc291a01[m Revise MiroFish release details in README
+[33m1ddfdce[m Update README with MiroFish release details
+[33m30fa80a[m Update README to reflect completion of the prediction step and add new logo image.
+[33ma9cced7[m Update demo files
+[33m229a23a[m Update README-EN.md
+[33maa9018b[m Update README.md
+[33mfd13080[m Update demo program
+[33m6cdcece[m Revert "Update demo program"
+[33m09e3c83[m Update demo program
+[33m21a1121[m Merge pull request #503 from 666ghj/GraphRAG
+[33mcf02777[m[33m ([m[1;31morigin/GraphRAG[m[33m)[m Update the description of the configuration interface
+[33mb60ee3d[m Enhance the full-screen viewing style
+[33m927c41c[m Fixed retry logic for AttributeError, TypeError, KeyError, IndexError, ValueError, and json.JSONDecodeError
+[33m9696eef[m Normalize keyword type before matching
+[33m26084a0[m Pass params_dict to history.add instead of decision
+[33m30c8953[m Update README-EN.md
+[33m8202141[m Update README.md
+[33m1a7f7c7[m Update the parameter settings in report_engine_only.py
+[33m5a47bec[m Add Comments
+[33m4c1147b[m Fixed an issue where charts might only display as one row
+[33mfe6bc9c[m Update button style
+[33m9d8c2f9[m Update .env.example
+[33m0a02547[m Update styles while waiting for GraphRAG to be generated
+[33ma9b8a19[m Maintain respect for GraphRAG configuration files in .env files
+[33ma496196[m Changes to GraphRAG frontend configuration description
+[33mfcc3567[m Ensure log cleanup in multiple modes
+[33mda429a1[m Update the storage scheme for GraphRAG query logs
+[33m4712d9c[m Fix syntax issues
+[33md101248[m Fixed continuous refresh when GraphRAG collapses
+[33ma48c2b4[m Optimize the interface display
+[33mb86e703[m Fixed the issue of GraphRAG not being read in full-screen mode
+[33m4f2d767[m Solve syntax errors
+[33m37f8bb8[m Import re in graph_storage to prevent NameError
+[33mbbf8d33[m Optimize GraphRAG query logs
+[33mf67ebb0[m Optimize search when viewing GraphRAG in full screen
+[33m19f039a[m Allow manual refresh when viewing GraphRAG in full screen
+[33mdd05ff9[m Optimize GraphRAG storage
+[33m307723c[m Allow sequential node queries
+[33me54c29e[m Update .env.example
+[33mead1bd5[m Allows storage of logs generated when querying GraphRAG
+[33m1ec27af[m Add automatic refresh functionality to GraphRAG in full-screen mode
+[33mdf34986[m Add automatic refresh functionality to GraphRAG
+[33m2eda6e3[m Update the style of "Generifying"
+[33mc8980c8[m Beautify the front-end page display of GraphRAG
+[33mb3b0ff1[m Display GraphRAG on the front-end page
+[33m73da6ae[m Build query params from chapter_targets instead of TemplateSection
+[33md71073a[m Allows changing GRAPHRAG_ENABLED and GRAPHRAG_MAX_QUERIES on the front end
+[33mbc493dd[m Prevent unbounded graph results from empty queries
+[33mf5fcfaf[m Use chapterId/title when building chapter overview
+[33m1560df2[m Reset loaded_states per task to prevent cross-task leakage
+[33m30aa7f4[m Prevent stale state reuse in knowledge graph build
+[33m84560ed[m Call llm_client.invoke with positional prompts
+[33m7b86e05[m Align graph API lookup path with GraphStorage output dir
+[33m8478e9d[m Update .env.example
+[33m6736606[m Query result endpoint references non-existent attributes
+[33mcb6b8f3[m Null pointer dereference after graph storage load failure
+[33mb2c77bf[m Incorrect iteration over graph nodes dictionary
+[33m8e4e8cf[m GraphRAG
+[33mf25cdbd[m Update README.md
+[33m46aa56b[m Update LLM API links in .env.example and config.py.
+[33madbffc1[m Update README.
+[33ma172aab[m Update requirements.txt to clarify optional machine learning dependencies
+[33m746643e[m Merge pull request #474 from W-ay/main
+[33md9efd4a[m Merge pull request #500 from 666ghj/Markdown
+[33mb7898f1[m Missing 'ir_file_path' parameter in PDFRenderer HTMLRenderer call
+[33me0af0a0[m AttributeError when collecting blocks from non-dict table cells
+[33m86420c0[m Race condition in singleton ChartReviewService with concurrent renderers
+[33m2dd3dc3[m Fixed the issue of raw JSON being output incorrectly
+[33m6c64379[m Fixed the display of charts and lists
+[33m26d6c2c[m Review metadata persisted to IR file pollutes data
+[33m2a6c3a8[m Incomplete chart normalization in "ChartReviewService" causes missing critical fields
+[33m786fec5[m Missing "ir_file_path" parameter in Markdown renderer call
+[33m030eb2a[m Missing "ir_file_path" parameter in Markdown renderer call
+[33m95de1d6[m Further fixes to table rendering logic
+[33mf4c59f2[m Fix table rendering logic
+[33m6d98e93[m Improve chart repair logic
+[33ma371cdf[m Completely redesign the chart repair logic
+[33mc33efec[m Optimize the display of the download button
+[33mbf842bd[m Add Markdown file download channel
+[33m5976d14[m Update README-EN.md
+[33mb88a2c3[m Update README.md
+[33m120dc40[m Further optimize Markdown rendering styles
+[33m339299f[m Optimize Markdown rendering styles
+[33mcd6eef1[m Fixed an issue where level 1 headings were rendered repeatedly when rendering Markdown
+[33mca97842[m Update the process when only Report Engine is running
+[33mdbd1bdc[m Unlock the connection between markdown and PDF
+[33m2d646bf[m Allows for separate rendering of markdown
+[33m2327b13[m Avoid repeated icon repairs
+[33m997a328[m Supports Markdown rendering
+[33m728293b[m Optimize text box borders
+[33m33107c2[m Optimize the effect of the action block and reduce its size
+[33m239e42d[m Revert "Optimize the effect of action blocks" This reverts commit 03b34eb30b7ec02e431345df7bfc5d30be97184c.
+[33m03b34eb[m Optimize the effect of action blocks
+[33mec58bc5[m Optimize the display of callout and blockquote blocks
+[33m9cee75f[m Update the styles of both callout and blockquote blocks
+[33m9d1555b[m Merge pull request #492 from 666ghj/Blocked-HTML
+[33m4c1d1f6[m Determine the style of the actions block
+[33m424ed0c[m Beautify actions block
+[33m5462e5b[m Simplify the actions block
+[33m7855bd3[m Update the display of the actions block
+[33me9f2690[m Solving the problem of overlapping data blocks
+[33m8cd88cf[m Update requirements.txt below MindSpider
+[33m10318d4[m Update logo height in README files for consistency
+[33m9be6f17[m Update README.
+[33m3cc881b[m Update README.
+[33m80593a5[m Merge pull request #491 from 666ghj/Blocked-HTML
+[33m65d4217[m Fix error "文档设计 缺少预期的键: toc"
+[33mff28c09[m Merge pull request #489 from 666ghj/Blocked-HTML
+[33mca25e0e[m fix(pdf): 防止数据块内容意外换行，强制单行显示
+[33m43cf955[m Update the mode switching button
+[33meb8dc06[m Update the test renderer
+[33md1d4c19[m Add Comments
+[33m47ca51f[m Change the display method of PEST chart in PDF
+[33m1082cab[m Merge pull request #484 from 666ghj/main
+[33m14c0152[m Repair the PDF generation process
+[33m09a7211[m Beautify the print button
+[33m816939b[m Add support for PEST blocks
+[33m4a1f74e[m Add rendering support for PEST blocks
+[33m87e112f[m Limiting the occurrence of SWOT
+[33m8fcd497[m Remove the rating information from the SWOT analysis
+[33m2ca8480[m Optimize SWOT prompts and information processing methods
+[33m24f0401[m Add Comments
+[33m19bef8d[m Add Comments
+[33m5ae11b2[m Optimize the style of the mode switching button
+[33m5bcc202[m Update print button
+[33mddf8c57[m Application day/night mode switch button
+[33m2879dfe[m Add source code for day/night mode toggle button
+[33m2c21832[m Add test file
+[33m08fddfb[m Modify SWOT analysis
+[33m2be0b2a[m Improve SWOT pagination effect
+[33m9ad6b1e[m Add SWOT analysis to enable pagination
+[33m1af3640[m Add SWOT adaptive adjustment
+[33m7e7d176[m Update README
+[33md75fb04[m Fixed the behavior of the SWOT block in light mode
+[33m88e737f[m Optimize the performance of SWOT block dark mode
+[33m14b644c[m Revert some changes
+[33m96cbb62[m Optimize the performance of the SWOT block in light mode
+[33m8467fcb[m Support SWOT Block
+[33m9fff119[m Update Logic When JSON Cannot Be Parsed
+[33me845738[m Merge pull request #481 from 666ghj/main
+[33m59e940b[m Merge pull request #480 from 666ghj/fix/Upload-template
+[33m3851f5f[m Fixed the Upload Template Button
+[33mab09a6b[m Merge pull request #479 from 666ghj/main
+[33m7ecc77d[m Merge branch 'main' into fix/dependecy_check
+[33m3c0067a[m fix: 修复扫描GTK安装路径时，当硬盘不存在/加密时，程序会报错退出
+[33m65304d0[m 找GTK默认路径时，跳过加密/不存在的盘
+[33mabc5227[m 让其不扫描D盘
+[33m160d1e5[m[33m ([m[1;33mtag: v2.1.0[m[33m)[m Merge pull request #350 from 666ghj/feature/insight_agent_cluster
+[33m5d96bd0[m fix: 搜索工具类型的条件判断，确保正确使用BochaAPI和AnspireAPI密钥
+[33m46cf1fd[m Merge pull request #463 from 666ghj/main
+[33m8b0a7f4[m Update requirements.txt
+[33me5130a7[m Remove obsolete media file from .gitignore
+[33mf9d0124[m Shutdown only clean 增加安全关闭系统的功能 (#441)
+[33mbcc7d9b[m Update .env.example and search.py with corrected Bocha API URL and improved comments
+[33m2d6df78[m Feat: 新增安思派AI搜索支持 (#457) (#461)
+[33m69370fa[m Update README-EN.md
+[33m132653e[m Update README.md
+[33m46c5abd[m Optimize Report Engine Prompt
+[33ma3f49ca[m Optimize the Display of Single-Agent Speech Blocks
+[33maf8c881[m Single-Agent Speaking Blocks Available
+[33m25abc25[m Update Report Engine Log Filtering Strategy
+[33m104d1f0[m Merge branch 'main' into feature/insight_agent_cluster
+[33mec1baf5[m Update Bocha API base URL in .env.example and config.py
+[33m64b94d7[m feat(xhs): 集成xhshow库优化签名生成与请求参数 (#330)
+[33m6d04ddd[m[33m ([m[1;33mtag: v2.0.0[m[33m)[m Update README.
+[33m68b7394[m Add report example.
+[33m9c57ba1[m Add the complete demonstration file of the report component library.
+[33me251f2d[m Update README.
+[33m9321f85[m Update .gitattributes for file handling
+[33m86dfa2c[m Merge pull request #341 from 666ghj/Blocked-HTML
+[33mb4319e6[m Optimize the Rendering of Hybrid-form Formulas
+[33mc902398[m Improve the Rendering of Inline Formulas
+[33m336e24f[m Updata .env.example
+[33ma3cefc6[m Optimize the Layout of the PDF’s First Page
+[33m092a436[m Fix the Issue Where Words in the Word Cloud are Displayed Incorrectly.
+[33m87382f2[m Adjust the Formatting and Layout of Data Blocks in the Generated PDF
+[33m5e9da9c[m Add Support for Rendering Various Inline and Block-level Mathematical Formulas
+[33m4e88256[m Add Comments
+[33m2335663[m Optimize the Rendering of Inline Formulas, Subscripts and Superscripts, Bubble Charts, and Horizontal Bars
+[33m2a5d984[m Improved Support for Word Clouds
+[33me362ef6[m Improve the Rendering of Donut Charts
+[33mb41a783[m Optimize Health Check Procedures
+[33me417214[m Add disk space cleanup step in CI workflow
+[33mce9130c[m Improve the Handling of Color Information Format During PDF Generation
+[33m09c83af[m Add a Program for Quickly Regenerating HTML
+[33m2e0a526[m Optimize the Color Replacement Scheme for Pie Charts
+[33ma7ff9ed[m Update .env.example File
+[33m7e3f3a2[m Merge pull request #411 from 666ghj/main
+[33m6ac676e[m New Version Dependency Name
+[33m6c14539[m Update Dockerfile
+[33m49cda6d[m Reverse the Code that Caused the PDF Rendering Error
+[33me9b7a91[m PDF Enhancement Generation
+[33m3866f81[m Merge pull request #355 from zzzpppy/fix/MindSpider_requirements
+[33m8505a8a[m Merge pull request #409 from 666ghj/main
+[33m107a58a[m Fixed the Issue of Charts being Repeatedly Repaired
+[33m4be9cc8[m Update README-EN.md
+[33m205665e[m Update README.md
+[33m63592b5[m Update README-EN.md
+[33m1439ab6[m Update README.md
+[33mcc52c70[m Update README.md.
+[33m68e60fd[m Add files via upload
+[33m89ea04c[m Revert "Fix the Issue of HTML Data Blocks Overlapping with Other Content"
+[33mfd1c8ed[m Fixed the Error "AttributeError: 'list' object has no attribute 'get'"
+[33mdfb0697[m Fixed the Issue Where Search History was not Displayed in Media Engine
+[33mbdf50ff[m Fixed the Issue of HOST Information not being Displayed in Forum Engine
+[33m79f080f[m Fix the Issue of HTML Data Blocks Overlapping with Other Content
+[33m8fbac74[m Fixed the Issue Where the Host Information was not Displayed
+[33m1765751[m Resolve the Issue of Search History not Displaying
+[33m6419d1c[m Improve HTML's Automatic Color Replacement Function
+[33m057229b[m Added Support for Word Cloud Association When Generating PDFs
+[33m37dc8e0[m Fix the Issue Where Dependencies for PDF Generation are Installed but not Recognized by the Program (Perhaps?)
+[33ma22be6d[m Fixes Situations Where TCP Connections Might be Refused
+[33m56b6bdd[m Enhance the Performance of Frontend Log Output
+[33mb4b749b[m Add HTML Support for Word Clouds
+[33mf67af71[m Update README-EN.md
+[33m80f1d9b[m Update README.md
+[33m452640f[m Optimize the Method of Automatically Repairing Charts in PDF
+[33m373b85a[m Repair the Logic of Automatically Repairing Charts
+[33ma2c42bd[m Fix Report Engine Progress Bar Error
+[33mbac28b4[m Update requirements.txt
+[33m079a1f1[m Allows for Fixing Graphic Colors and Styles When Rendering HTML
+[33mea3b426[m Change Template Name
+[33m1bba68d[m Update README-EN.md
+[33m01b29fb[m Update README.md
+[33mde8f253[m Improves the Front-End Console Experience
+[33mb10dd44[m Resolving Report Engine Logging Issues
+[33m2fb15f5[m Fix the Display of Report Engine Console Logs
+[33mceeac9e[m Update Report Engine Log Display Method
+[33m5925f49[m Fix Report Engine Log Output Priority
+[33m2da43db[m Adjust the Front-End Log Query Mode
+[33m3eff6b0[m Displays Information above DEBUG
+[33m994477f[m Fixed Chart Handling Issues in HTML and PDF and Improved Chart Readability
+[33mf98d360[m Optimize the Rendering of Charts in HTML and PDF
+[33m488122a[m Delete Useless Docs
+[33ma89bf7d[m Fixed Bug - Fail to Export as PDF
+[33mcad25b6[m Optimize Log Output Efficiency
+[33m70b6e98[m Change Report Engine Log Output Level
+[33m269b2ec[m Optimize Log Display Logic
+[33md8afd95[m Optimize the Binding of the Catalog
+[33m147edbe[m Added Support for Formulas and Optimize the Rendering of Data Blocks When Exporting to PDF
+[33mf1285c6[m Optimize the Progress Bar Display in Report Engine
+[33mcafde07[m Resolves Display Issues with Pie Charts and Line Charts When Exporting to PDF
+[33mbd0aa98[m Update Report Engine Log Display Logic
+[33m66240bb[m Update Log Display Logic
+[33m29dd025[m Optimize PDF Export Logic When Using report_engine_only.py
+[33m511452b[m Update README-EN.md
+[33m24ffbb0[m Update README.md
+[33m5b001bf[m Support Using Only Report Engine
+[33m69ba0f2[m Update the Dependency Handling Scheme
+[33mbe1fe53[m Updata README-EN.md
+[33m87a7071[m Updata README.md
+[33md744acf[m Modify the Error Message When the Pango Library is Missing
+[33m1cf82ad[m Optimize the Front-End Console Log Display Logic
+[33md4f8301[m Fixed the PDF Rendering Overflow Issue and Updated the Logic for Rendering PDFs
+[33ma07d6c5[m Update the PDF Rendering Logic and Add Support for Vector Graphics
+[33md397b98[m Preventing Errors and Overflow During PDF Rendering
+[33m52755df[m Fix the Error "'ReportTask' object has no attribute 'ir_file_path'" When Exporting PDF and Ensure that Pango Dependencies are not Missing
+[33ma465b56[m Update README-EN.md
+[33mab59c0e[m Update README.md
+[33mda7c8ce[m Embedding Third-Party Libraries in HTML
+[33m8ba2441[m Delete the Button of "Export as PDF" in HTML and Cancel Font Embedding
+[33m80adc1b[m Update requirements.txt
+[33m26ab061[m Add README of "Export as PDF"
+[33m5e82185[m Modify the Logic for "Export as PDF"
+[33macfe77a[m Improve PDF Export
+[33m82f3ccc[m Small Set of SourceHanSerifSC
+[33m49c42a1[m Optimize Progress Bar Display Issues
+[33m1a302ca[m Solving the Problem of Garbled Characters in PDF Rendering
+[33m85d75d6[m Fixed the Front-End Progress Bar Display Logic
+[33meb03665[m Fix the Front-End Console Display Logic
+[33m939fea2[m Modify the Logic for Downloading PDFs
+[33meea356f[m Improve Rendering Compatibility
+[33m90f5986[m Optimize Front-End Memory Usage
+[33m80bbd0d[m Optimize Front-End Memory Usage
+[33md9f7231[m Fix Forum Engine's Frontend Log Output
+[33m0707c6f[m Optimize Export to PDF
+[33mdffe161[m Add an "Export to PDF" Button and Define the Font for Exporting to PDF
+[33mfdd836b[m Add SourceHanSerifSC
+[33m19efa81[m Improve the Way to Deal with Error JSON
+[33mad36c03[m Add the Ability to Parse JSON
+[33mbf1e2bf[m Repair the Logic for Cleaning Data Returned by LLM
+[33mb31be56[m Fixed Directory Parsing Issues and Optimized Directory Rendering
+[33mf6714a3[m Fix 'fonts' Fype Matching Issues
+[33ma5f3964[m Optimize JSON Parsing Compatibility
+[33mc20cc24[m Repair and Optimize the Chart Rendering
+[33m50b6ab4[m Cleaning Data Returned by Report Engine's LLM
+[33m26c133c[m Offline JS Library
+[33mdd963d6[m Merge pull request #365 from 666ghj/main
+[33m3849c6e[m Update config.
+[33m134265a[m update mindSpider requirements
+[33m45ef1b0[m Merge pull request #354 from 666ghj/main
+[33ma5b9b5a[m Fixed Export Garbled Character Issue
+[33m259bd7c[m refactor(InsightEngine): change _cluster_and_sample_results() params default value
+[33m904df34[m Optimize the Rendering Process
+[33ma12ac42[m Optimize the Handling of Low Word Counts
+[33mcab812e[m Repair the Logic of the Log Viewing System
+[33m30b815a[m refactor(insight_agent): replace np.where(...) index extraction with np.flatnonzero for clarity
+[33m3084df6[m feat(insight_agent): search results cluster
+[33m6e8741f[m Optimize Rendering Logic with New IR Binding
+[33mfd1a23c[m Improve IR Binding Logic
+[33m90d12a0[m Enhance Repair Capabilities
+[33mfa1ebc0[m Optimize Re-output Logic
+[33mbae13bf[m Improved Formatted Output
+[33mb6b2a0f[m Correction Retry Logic
+[33mf87389c[m Add Comments
+[33m6e3abf8[m Update README.md
+[33m3e1b47d[m Update README-EN.md
+[33m5e1fbc9[m Add Comments
+[33m5ef63ec[m Improve the Security of Regular Expression Matching
+[33m79a015b[m Improve PDF Export
+[33m4798424[m Allow LLM Repair
+[33m9b9188f[m Feature-Test RE Sanitization
+[33m8aa114d[m Fix-Multiple Directories
+[33m62b8276[m Fix-“必须是非空数组”
+[33mf64f973[m Improved Rendering
+[33m2209319[m Update README-EN.md
+[33md6f1afd[m Update README.md
+[33m6d0e8f4[m Add Comments
+[33m52eed4d[m Increase DeepSeek Compatibility
+[33maa3b913[m Change configuration description guide.
+[33m01d9804[m Update email.
+[33me267b1f[m Add Comments
+[33m8215254[m Improved Rendering
+[33mfa787af[m Streaming
+[33m7769630[m Merge pull request #340 from 666ghj/fix/docker-env-file-config
+[33m13ed995[m docs(README): update quick start guide
+[33m4f9ff3d[m Merge pull request #322 from JasonDylan/fix/docker-env-file-config
+[33m9d6e494[m Update operation guide in UI and config file.
+[33m1c2f82e[m Add Cryptography
+[33m3e4aa63[m Add Comments
+[33m4846b1f[m Blocked HTML
+[33m403dbbd[m Delete small bat.
+[33mf004407[m Add final report download button (#329)
+[33m516f37b[m feat: api 隐藏可选
+[33mfd6ffaa[m fix: correctly load environment variables in docker-compose / fix: docker-compose 修复 Docker 部署时网页配置修改无效的问题
+[33mb6c5c41[m docs: update contributing
+[33m3a96bd4[m Hotfix: Increase forum timeout to better accommodate existing system stability.
+[33m79e7123[m Merge pull request #303 from 666ghj/dev
+[33m6db203b[m Merge pull request #302 from 666ghj/docs/contributing
+[33mdd8274c[m docs: Update CONTRIBUTING-EN.md with sync instruction
+[33md29fc6d[m docs: Update CONTRIBUTING.md with pull instruction
+[33ma05b038[m Update README_EN.md
+[33m8474af8[m Update README.md
+[33mef15cec[m docs(README-EN): add English notice referencing CONTRIBUTING files
+[33m0a7bcf9[m docs(README): reference bilingual CONTRIBUTING files in README
+[33ma59fe37[m docs: add bilingual CONTRIBUTING.md (Chinese + English)
+[33mb09a13e[m fix(sentiment_analyzer): streamlit and torch conflict
+[33m92482a4[m fix(sentiment_analyzer): fix type warning from pyright
+[33maa11c52[m style(sentiment_analyzer): format file
+[33m71f4b3a[m fix: 修复日志记录错误信息时的变量引用问题
+[33mfe82b9e[m Update README.
+[33m245d033[m[33m ([m[1;33mtag: v1.2.1[m[33m)[m Merge pull request #274 from MaYiding/Feature-Update-QQ-Group
+[33ma57b4ad[m Update README-EN.md
+[33m1bd6f56[m Update README-EN.md
+[33mc4847a8[m Update README.md
+[33m39abfbe[m QQ Group QR Code
+[33mdfc581f[m 修复流式传输重试问题
+[33m58b819d[m Update README_EN.md
+[33mdcce60f[m Update README.md
+[33m62bf8f6[m[33m ([m[1;33mtag: v1.2.0[m[33m)[m Update README.
+[33m7b888db[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m3b977bb[m Update README.
+[33m2064125[m Merge pull request #219 from NTFago/fix/torch-classes-error
+[33m64e2453[m fix(streamlit): disable file watcher to avoid torch.classes conflict
+[33mbba0419[m 更新readme
+[33mebeb33f[m Update README.
+[33me55cd7b[m Hotfix: Refine report selection prompt to avoid accidental mis-selection.
+[33m8bdb129[m Refactor(workflow): disable cached when build docker
+[33ma1e4f49[m Merge pull request #201 from 666ghj/feature/arm_docker
+[33m444c547[m[33m ([m[1;33mtag: v1.1.2[m[33m)[m Feat(docker): support arm platform
+[33md076d29[m Merge pull request #198 from 666ghj/feature/arm_docker
+[33m58bf522[m Feat(docker): support arm platform
+[33m34d4eeb[m Dev to Main: Refactor LLM Interface to Byte Stream for Improved Stability
+[33m474c765[m 1. LLM接口改为字节级流式接口，防止超时错误，也避免utf-8长字节字符拼接错误
+[33mbdc5ffe[m Update README.
+[33m8f8bf70[m Update README.
+[33m8b72ac0[m Update README.
+[33m826e5e7[m fix: Mysql query error.
+[33md2fec57[m Merge pull request #193 from 666ghj/docs/pg_db
+[33m0d7435c[m docs(README): update database config
+[33m5e953f8[m Update README.
+[33mf8d02eb[m Update README.
+[33m94a71a8[m Update README.
+[33m1673f28[m Merge pull request #189 from 666ghj/dev
+[33mbd7a1ba[m Merge pull request #187 from dragons96/main
+[33m6716c8f[m fix: Mysql query error.
+[33m791e7be[m Merge pull request #180 from 666ghj/docs/one_click_docker
+[33me1b39e2[m docs(README): remove redundant content
+[33m1f0689c[m docs(README): remove redundant content
+[33m3dacdf6[m docs(README): remove redundant content
+[33m4a9ec29[m chore(docker-compose): use remote image
+[33mf4e74e0[m docs(README-EN): add one-click docker tutorial
+[33m65f1790[m docs(README): add one-click docker tutorial
+[33mdfa88e8[m Update README.
+[33m7b2e94a[m Merge pull request #177 from 666ghj/revert-157-feature/add-docker-documentation
+[33m0dfd62c[m Revert "Feature/add docker documentation"
+[33meee0425[m Merge pull request #157 from luojiyin1987/feature/add-docker-documentation
+[33m55d10a6[m Merge pull request #175 from try2love/feature/FixDatabase
+[33m148aafb[m 修复sql特殊密码无法连接的问题
+[33m01dc676[m[33m ([m[1;33mtag: v1.1.1[m[33m)[m Merge pull request #171 from 666ghj/fast_patch
+[33m8bc62eb[m Merge branch 'main' into fast_patch
+[33ma1bae94[m Merge pull request #172 from DoiiarX/fix-log-error
+[33me4d075c[m 1. 修复论坛通信问题，基于日志块增加容错 2. 使用ERROR层级来避免json解析错误导致的连环问题
+[33m7d5105e[m Merge pull request #164 from IceEnd/feature/ConfigurableHostPort
+[33m5545507[m Merge pull request #165 from Xuhang944/fix-.env.example
+[33m97a71b9[m chore(workflow): build docker when push tag
+[33m7ab182e[m chore(docker): docker compose cancel load .env
+[33mc6deecd[m fix(env): fix report agent api key error
+[33mcaa6c48[m fix(database): init_database in app.py
+[33m99fdcfa[m 修正.env.example文件中的注释，增加换行隔开各个agent配置
+[33maede950[m Update README.
+[33m39b8c83[m Update README.
+[33mf1794d4[m chore: add configurable HOST and PORT via .env file
+[33m950bf0d[m Merge pull request #155 from DoiiarX/fix-agent-communication
+[33m505b720[m Merge pull request #160 from Misaki030112/fix/forum-env-config
+[33mf91cf6a[m 1. 修复论坛通信问题 2. 修复总结报告错误 3. 修复环境变量重新载入问题 4. 添加测试用例 5. 修复论坛主持人问题
+[33maed242a[m fix(agent): correct logger reference in report generation
+[33mdce6371[m 1. 修复论坛通信问题 2. 修复总结报告错误 3. 修复环境变量重新载入问题 4. 添加测试用例 5. 修复论坛主持人问题
+[33mfc655d0[m fix(ForumEngine): Fixes the issue where the Host Agent LLM configuration was not read from environment variables.
+[33m0d3dde0[m doc: DB_DIALECT var
+[33mdf5907f[m Merge pull request #154 from li7355608/main
+[33m381d5eb[m doc: add docker usecase
+[33madeedff[m 日志解析修复
+[33me2e03b9[m 更新文档
+[33m7515e50[m Update README.
+[33md757d88[m Merge pull request #152 from 666ghj/fix/docker_env
+[33m2c3765b[m chore(docker): copy .env file
+[33ma6f7dc7[m Merge pull request #150 from DoiiarX/docker-compose-db
+[33mc4e70c0[m docker-compose.yml数据库集成
+[33m048fbe4[m Update README.md.
+[33m7f70e95[m Update README.
+[33m2326581[m Update README.
+[33mac03d80[m Merge pull request #147 from DoiiarX/fix-logger
+[33mbd0d241[m 修复logger问题
+[33m3abe20b[m Merge pull request #140 from DoiiarX/fix-db-module
+[33m74110c4[m 修复缺失的文件
+[33m4ee5fa9[m Merge pull request #114 from luojiyin1987/improve-dockerfile-build
+[33m0334a74[m Merge pull request #137 from DoiiarX/fix-config.py
+[33maed92df[m 修复由于.gitignore文件导致的config.py没有更新问题
+[33m39c800d[m Merge pull request #128 from DoiiarX/github-issue-helper
+[33md0d36b1[m 添加github报错快捷按钮
+[33m9b055c6[m Merge pull request #127 from DoiiarX/fix-typo
+[33mefebdbd[m 修复文档问题
+[33m655a8ca[m Merge pull request #125 from DoiiarX/env-file-and-loguru
+[33m537d682[m 1. 统一为使用基于pydantic的.env环境变量管理配置 2. 全项目基于loguru进行日志管理
+[33m1d2e23d[m Merge pull request #123 from DoiiarX/fix-import-error-and-stop-word
+[33m22ed16e[m 修复数据库初始化问题、删除过时的数据库格式方法、修复空停用词错误。
+[33ma8249c4[m Update README files to include a link to a complete system run example video for "Wuhan University Public Opinion".
+[33mae738e8[m Add --proto-redir flag to enforce HTTPS on redirects
+[33mf0772bf[m Merge pull request #116 from DoiiarX/fix-news-id
+[33m5d90e7f[m Add security flags to curl command in Dockerfile
+[33mb774e5d[m 修复news-id冲突问题
+[33m4dfb70e[m Improve Dockerfile build configuration and layer caching
+[33m883a405[m Merge pull request #73 from DoiiarX/fix-mindspider
+[33m4b48156[m Implement comprehensive front-end settings UI.
+[33m96be3c1[m Remove the intermediary introduction.
+[33md835c3a[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m6abc798[m Update README.
+[33mbcdbf6f[m Update README.md.
+[33m810f97f[m chore(git): ignore final_reports
+[33m08efc3b[m[33m ([m[1;33mtag: v1.1.0[m[33m)[m Merge pull request #85 from 666ghj/chore/ignore_demo_files
+[33mc9dd7d5[m chore(git): ignore logs and reports
+[33m170447a[m refactor(logs): rename log files
+[33m643300c[m Merge remote-tracking branch 'origin/fix-mindspider' into fix-mindspider
+[33mf4fe414[m 1. 同步MediaCrawler为最新版本 2. 修复数据库not null错误 3. 支持PG数据库 4. 规范环境变量及配置使用 5. 规范为uv安装 6. 使用loggru
+[33ma4ab8a5[m Merge pull request #80 from flash131307/fix/typo-and-duplicate-dependency
+[33m11d8bda[m fix: correct typo and remove duplicate dependency
+[33m66af69d[m Fix agent temporal perception error by adding current real-world time to LLM prompt.
+[33me1c201a[m Increase LLM timeout for report agent to improve fault tolerance.
+[33m4104ee4[m 1. 同步MediaCrawler为最新版本 2. 修复数据库not null错误 3. 支持PG数据库 4. 规范环境变量及配置使用 5. 规范为uv安装 6. 使用loggru
+[33m62fac9e[m hotfix(timeout): increase llm call timeout to 1800s
+[33m96c7d2d[m 1. 同步MediaCrawler为最新版本 2. 修复数据库not null错误 3. 支持PG数据库 4. 规范环境变量及配置使用 5. 规范为uv安装 6. 使用loggru
+[33m5d8a566[m Update README.md.
+[33m1adbe29[m Clarified the instructions for copying the config template in both English and Chinese README files.
+[33m4a49a97[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m087f32f[m Update requirements.txt to clarify optional machine learning dependencies and provide installation notes for CPU and GPU versions of torch.
+[33m5b125ea[m hotfix(database): fix `source_keyword` not in table bilibili_video
+[33mdba7fa9[m docs(README): Update configuration instructions
+[33m6fd897d[m chore(config): stop track MindSpider config.py
+[33m46b2f00[m docs(README-EN): Update configuration instructions
+[33mbda4343[m chore: stop track config.py
+[33m0aaf81b[m 修复fetch_news无法正常获取的问题
+[33m3ad8077[m 修复fetch_news无法正常获取的问题
+[33m7726be4[m Update README with important deployment announcement.
+[33me109f2c[m Add MindSpider running screenshot.
+[33m14a164a[m Completed requirements.txt, fixed the Dockerfile, and updated the README. Significantly refactored the sentiment analyzer to be more robust against missing machine learning dependencies and controllable via a toggle.
+[33m1d714d4[m 改为使用uv安装，更加快速，且修复torch和transformers未安装的问题
+[33m7eec3a1[m Update Trend List.
+[33ma9893ea[m Update remote deployment guide.
+[33mf6d52b9[m 修复：使用动态主机地址支持局域网内后端服务访问
+[33mb1ec476[m Update README-EN.md
+[33mc94f43d[m Update README.md
+[33m3afa16b[m Add note on news API failure and solution.
+[33m35084eb[m Update custom sponsorship URL in FUNDING.yml
+[33mbee8bb0[m Add sponsor image.
+[33m4ce8273[m Update README.md
+[33m065b987[m Update cloud database service information and compliance notice in config and README files.
+[33m04f18df[m Add initial Docker configuration.
+[33m6ceb007[m Update README.md
+[33m9b16ff6[m Update README.
+[33ma3f6aa4[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m154b29c[m Completely refactor the LLM integration method to easily replace the LLM used by each module and optimize the retransmission mechanism.
+[33mdaea4f2[m Update README.md
+[33mbf79e51[m Update README.md
+[33mce74f00[m Update logo.
+[33m49d4893[m Standardize LLM clients and expose configurable base URLs.
+[33m960608c[m Migrate Forum Host and Keyword Optimizer to use OpenAI client.
+[33m45bffb3[m Update README.md
+[33me70fceb[m Optimize sentiment analysis module fault tolerance and keyword optimizer prompts.
+[33m52eca47[m Add Logo.
+[33m7fc84b4[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m847eeb6[m Add Logo.
+[33m9f8b571[m Update README.md
+[33m55c8051[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m85b3769[m Front-end title modification.
+[33mce77cc3[m Update README.md
+[33m7d9be85[m Update README.md
+[33m4a206c2[m Update README.md
+[33m81548a7[m Update README.md
+[33m1f5522b[m Enhance prompts for fact-checking and professional analysis.
+[33m8442865[m Update README.md
+[33m3191a19[m Update README.
+[33m7b5da08[m Update README to include reference.
+[33m1af4044[m Add deployment guidance to the documentation.
+[33mcec8ed3[m Improve forum communication mechanism between agents.
+[33mba48e77[m Remove forum host asynchronous strategy and simplify the process.
+[33m38dca27[m Update the README file and add documentation for the Forum Moderator LLM module.
+[33m6181e19[m Updated README files, added disclaimer section, clarifying project usage limitations and legal responsibilities.
+[33m860cdb2[m Fix simple word spelling errors.
+[33m05a0eeb[m Updating LLM-host for ForumEngine
+[33m348de85[m[33m ([m[1;33mtag: v1.0.0[m[33m)[m Update readme.
+[33m1812c47[m Update readme.
+[33mb5e6b3a[m Update readme.
+[33mcd9fd97[m Upload the framework diagram.
+[33m6c11781[m Update project overview header icon
+[33m3340bef[m Update README.md
+[33m555ce4e[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m347371f[m Update logo.
+[33mea611ba[m Fix formatting in README-EN.md
+[33m5ac2bf1[m Update code structure tree documentation.
+[33m89f1fb0[m Add development roadmap.
+[33m922ff9a[m Update readme.
+[33m732de24[m Update readme.
+[33m70667e7[m Update readme.
+[33m00eebca[m Update README.
+[33m0bebb44[m Add a README file.
+[33mb483acc[m Upload config.py.
+[33m587e709[m Uploading the AI Crawler System: MindSpider
+[33m822bad5[m System bug fixes, prompt optimization, and dynamic context adjustment.
+[33me5e32ff[m The entire system has been largely completed.
+[33m11e8c85[m Front-end style optimization.
+[33m3ca87c0[m Fix Bug.
+[33mf0788b6[m The final report agent has been largely completed.
+[33m197e68f[m Optimize prompts.
+[33m1fd70bc[m Page optimization.
+[33m34c7179[m Forum function completed.
+[33m311e5d1[m Bug fix.
+[33m8c19173[m The front end of the forum has been basically implemented.
+[33m5b51ba8[m The interface of the forum has been initially set up.
+[33m75782ae[m Optimization of Forum Function Records.
+[33m9c70a9d[m The forum function log printing and filtering have been partially completed.
+[33m390c9e9[m Add log example.
+[33mf65387f[m The forum recording function has been initially completed.
+[33m04de341[m Introduce the error retransmission mechanism to enhance robustness.
+[33m6244d11[m The single-multi-agent framework has been initially completed.
+[33m4d90f56[m Introduce the function of initially restoring the real-time output of console information.
+[33m4de9a33[m Fix BUG.
+[33m5d49063[m Communication encoding bug fixed, all converted to UTF-8.
+[33m29dbc76[m The console on the right side of the web interface displays a height limit.
+[33mcda55ab[m Fixing issues with the web interface.
+[33m5b3f5a7[m Web interface optimization.
+[33m611f069[m At the same time, activate the search function to achieve.
+[33m281c583[m Web app bug fix.
+[33m9253770[m Initial setup of web app.
+[33m5fdb1e4[m Fixing Streamlit bugs.
+[33m402d161[m Update config.
+[33m339545f[m Different types of base models adapted for each agent.
+[33mf448ddd[m Local sentiment analysis upload.
+[33m4e33224[m The Insight Engine agent has been basically completed.
+[33mc35a6ba[m The private database analysis agent has been basically completed.
+[33ma33e4b3[m Private database operation tools completed.
+[33m431cf6a[m The multimodal agent has been basically completed.
+[33m062f66c[m Multimodal search tools have been completed.
+[33m7ae863a[m Reconfiguration of the basic multi-agent architecture.
+[33mbec01f8[m Add multiple tools.
+[33m5d7f417[m JSON parsing fix.
+[33m862cf7c[m Reinitialize.
+[33m0c31be4[m The framework has been restructured again, and the Flask framework has been abandoned.
+[33m15b3a33[m Complete the part of the system crawler2.
+[33m047bbf8[m Complete the part of the system crawler.
+[33m995ec11[m Add config.py to .gitignore to prevent credential leaks
+[33m690221d[m Update gitignore
+[33mc5c5307[m Add BERTopic.
+[33me2323d5[m Dataset on Weibo topic's popularity over time.
+[33mde68be5[m Updated the topic prediction script to support Top-K predictions and added an interactive selection feature for optional Chinese foundation models.
+[33md726941[m Fix label mapping and boost training with batch_size=64.
+[33m4373f31[m Train and prediction script for a topic classification model based on bert-chinese.
+[33m20222bb[m Add the topic identification dataset.
+[33md88d5ed[m The LLM-based topic recognition model is complete and adapted to quickly updating Weibo topics.
+[33m1e78087[m Update ChineseNlpCorpus readme.
+[33md1d94f5[m Update README.md
+[33m10b4c60[m Add banner2
+[33me225064[m Update README.md
+[33m3630a34[m Add banner.
+[33m4770aaf[m Update the prediction script to change the imported model configuration to QWEN3_MODELS.
+[33md2e0cc7[m Tuning Qwen3 fine-tuning hyperparameters
+[33mad27791[m Optimize the model loading logic of Qwen3.
+[33mc4af1ef[m Add the base class, configuration file, and training script for the Qwen3 sentiment analysis model, with support for various model sizes (0.6B, 4B, 8B).
+[33me515b27[m Add readme.
+[33m6b8a720[m Add logo.
+[33m43525c5[m Added a base model class and training scripts for various sentiment analysis models, including Naive Bayes, SVM, XGBoost, LSTM, and BERT. Also, improved prediction functionality and the model loading mechanism.
+[33mbd60e2e[m A new multilingual sentiment analysis module has been added.
+[33m645242a[m Updated how the fine-tuned BERT model is stored.
+[33m1331a5b[m Update LICENSE
+[33m2ac1138[m Updated sentiment analysis model fine-tuned on BERT-Chinese.
+[33m6071347[m MediaCrawler add
+[33m77214ea[m Update the partial fine-tuning model and dataset.
+[33m5fc3146[m Update .gitattributes
+[33mb504808[m Update the.gitAttributes file, add processing rules for text and binary files, and ensure the correct identification of file types.
+[33m9a5168e[m Add contributor code of conduct, license files and ICONS, and update.gitAttributes to mark.js files as Python language.
+[33mbab8f99[m Update README
+[33ma841468[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m14d8ac6[m Completed fine-tuning for several models and prepared the foundational components for an upcoming refactor.
+[33m68f63c7[m Delete README-CN.md
+[33m1960c01[m Update README.md
+[33m67d1888[m Create .gitattributes
+[33m2b4d972[m Update README.md
+[33med23ab1[m A new microblog sentiment recognition model has been added, based on the fine-tuning of GPT2, but it has not yet been adapted to the system.
+[33md24b47a[m Fix3:Random Seed
+[33m26098f5[m Fix2: Provide a seed for the random_state parameter.
+[33m296d8e4[m Fix: Provide a seed for the random_state parameter.
+[33m0ce3c01[m Fix: Don't use `pytz` module with Python 3.9 and later.
+[33m3075471[m Enhance HTTPS redirection using Flask url_for.
+[33mfd4b918[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m1bbdfcd[m Optimize code structure and enhance security features.
+[33meb28e0f[m Update README.md
+[33mbad84f5[m Enhance LSTM model for small datasets and improve performance.
+[33ma614bca[m Enhanced public opinion prediction system by integrating LSTM model.
+[33mc9fe331[m Add spider and workflow visualization module entries and related route configurations.
+[33md4d22f7[m The newly added crawler visualization settings and the process visualization orchestration module have been adapted to support bilingual switching.
+[33m0d67d6e[m Update README-CN.md
+[33m4fb8d25[m Update README.md
+[33m9f0b322[m Update README.md
+[33m54412b7[m Process visualization orchestration BUG fix, feature enhancement, and support for export and import of orchestration processes.
+[33m231d533[m Optimize the crawler configuration page, add multi-account parallel functionality, adapt AI configuration features, and include database configuration options.
+[33me95479f[m Update README-CN.md
+[33mfee1949[m Update README.md
+[33m298ea39[m Update README.md
+[33me621427[m Update README-CN.md
+[33me0eaf82[m Update README.md
+[33m0d4b38d[m Update README-CN.md
+[33m05179e3[m Update README.md
+[33md9e8eef[m Update README.md
+[33m442f343[m Minor path bug fix.
+[33m0c6a40b[m 🚀 Major Upgrade! Visual Workflow Orchestrator and AI-Powered Crawler Implemented. Added Model Arena Feature and Efficiency Optimizations (Two-Level Caching Architecture + End-to-End Performance Enhancements).
+[33mee53729[m Merge pull request #22 from apeng0406/main
+[33m769785d[m Update README-CN.md
+[33mb8f1b54[m Update README.md
+[33mb4f14ae[m Bilingual support, with full system support for Chinese and English switching.
+[33mf81a71e[m Comprehensive security enhancement, fix race conditions and injection vulnerabilities.
+[33m5630b30[m Comprehensive enhancement of user authentication system security, including password storage, session management, XSS/CSRF protection, etc.
+[33ma14f5d6[m Merge pull request #19 from ZhangJinHaHaHa/main
+[33m673eb02[m 注册漏洞修复，增强用户认证系统安全性
+[33mf85298c[m Spider System Performance & Stability Enhancement
+[33me071958[m Optimize database connection management in spider module, fix WebSocket handling and parameter validation.
+[33m930046f[m Add AI-powered Spider Configuration Assistant.
+[33m1180f28[m Add a visual control panel for the crawler, supporting customization of topics and parameter configuration.
+[33m20a5be7[m Add options for selecting large models and prioritize using DeepSeek for analysis.
+[33m017f43a[m Deleted some unused documentation files.
+[33mf5b2bf5[m Delete the BCAT frontend page.
+[33mdfe1a83[m Modify naming conventions that may cause confusion and consolidate code files.
+[33m9106d8e[m Add DeepSeek model selection UI support.
+[33m8208985[m Supports integration of two models from DeepSeek for analysis!
+[33m12a8732[m More model support, including OpenAI and Claude, with corresponding updates to the README documentation.
+[33ma60a0f3[m A more comprehensive large model analysis setup, front-end interface optimization.
+[33m8ec05ef[m Integrating the OpenAI API for in-depth comment analysis, with usability to be debugged.
+[33m8249ec0[m Implement a two-level caching system (memory + disk) to optimize topic switch response speed, support asynchronous writing, and automatically clean up expired data.
+[33m607db73[m Optimize model loading and prediction performance, implement the singleton pattern, and provide comprehensive error handling and error messages, along with confidence level display.
+[33m1707c2c[m Added a feature to select the emotion analysis model, supporting switching between the basic and improved models.
+[33m826de61[m The old emotion recognition model has been replaced with the new model_pro, and the results have been integrated into the project.
+[33ma9108a9[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mc62f2b2[m Added a logging utility class and supplemented, standardized the logging output for all modules.
+[33m766d45d[m Update README-CN.md
+[33m03a70e6[m Update README.md
+[33m0a22428[m Update README.md
+[33m6bbebde[m Merge pull request #15 from zhaisang111/main
+[33mfea1f77[m Optimized the getEchartsData.py script, improving code efficiency and readability.
+[33m1288b5f[m Unimportant changes
+[33m4bee58b[m Merge pull request #14 from tianjy12/main
+[33m45324ee[m Added dynamic scheduling functionality to adjust crawler execution intervals based on crawl duration and data volume.
+[33m3d253b1[m Optimize word cloud generation script by adding logging and exception handling.
+[33m06e6060[m Delete some unnecessary introductions
+[33me58f105[m More convenient project initialization, with database initialization added to app.py.
+[33ma307737[m Modify the database hardcoding to switch to command-line interactive database connection.
+[33mba56f3b[m Merge pull request #12 from lintsinghua/main
+[33m8c4f3e9[m Update spiderContent.py
+[33ma7472b4[m Update spiderComments.py
+[33mbabb9d5[m Update spiderNav.py
+[33m82be6f8[m Merge pull request #11 from craiemer/main
+[33m057e02e[m Merge pull request #10 from qqqlsm666/main
+[33mad3a200[m 添加日志输出
+[33m9e3c72e[m Create CODE_OF_CONDUCT.md
+[33m7583ef2[m 优化 topicDefine.py 主题标签处理逻辑，提升性能与稳定性
+[33mf4ea9b9[m Merge pull request #7 from wjhgq/main
+[33m03ec500[m Merge pull request #5 from lycoriskang/main
+[33md908e4c[m Update yuqingpredict.py
+[33m3fab33a[m Update predict.py. The prediction model is optimized to a time series model, which significantly improves the modeling fitness.
+[33mf480cee[m Update README.md
+[33md9d1b71[m Update README.md
+[33mff41fa8[m Update README.md
+[33me87a13d[m Update README-CN.md
+[33mc6568b3[m Fix broken link
+[33m3a58a00[m Update logo
+[33m48be286[m Update README.md
+[33m9557acb[m Add files via upload
+[33mc5a6254[m Update README.md
+[33mc0164ec[m Add files via upload
+[33m918658c[m Update README.md
+[33m38c11b0[m Update user.py
+[33m9c5c97d[m Update README.md
+[33m6d254a8[m Update README.md
+[33m72f7c2a[m Merge pull request #3 from sukiyra/main
+[33m158c0b8[m Update app.py
+[33m933471a[m Update README.md
+[33me41334c[m app final update
+[33m96af98f[m app rebuilt
+[33ma4fba83[m predict.demo built
+[33m848da77[m front end app update
+[33m975890d[m failure.html page built
+[33m2493136[m waiting.html page built
+[33m9bfc6f3[m success.html
+[33m1417936[m update app.py
+[33m440e3c3[m preliminary realize main.html
+[33m70b5453[m front end built
+[33mfd815a2[m Upload of the final complete model data
+[33mf8b13ec[m The integration process and a complete use example are given
+[33maf5e226[m The final classification layer is complete
+[33m3efea92[m The multi-head attention mechanism is basically completed.
+[33m9af61e2[m Calculates the scaling dot product attention
+[33m4500b27[m Divide the input into long heads
+[33mf5e307d[m Define the linear transformation layer
+[33mee739c3[m Multi-head attention mechanism infrastructure and input dimension settings.
+[33mba19229[m A small change.
+[33m5adabea[m BCAT is basically completed.
+[33mb49d16a[m BCAT Preliminary
+[33m80aa0cf[m Implement the get_bert_ctm_embeddings function and embedding generation and loading logic
+[33m4d91f30[m Bert's method of processing sentences
+[33m6cf336a[m Upload model parameters of CTM module
+[33m88981ad[m The BERT_CTM module is finally completed
+[33m34405d7[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mf2ebb56[m Added inference function for the model
+[33m8e1635e[m 更新 index.html
+[33mde9d51c[m readme-cn
+[33mc41028a[m readme-cn
+[33m91a192e[m Add BERT-CTM model with save/load and error handling
+[33mf0f43c8[m Integrated training function of CTM model
+[33m5108ae1[m Implement Chinese word segmentation
+[33m48af69d[m Batch processing text embedding tests
+[33m8c0479a[m Test the BERT model for Chinese simulation embedding
+[33m701926b[m Import the initial BERT pre-trained model
+[33mce80b15[m Input the new dataset for sentiment recognition
+[33me83639b[m Initialization of the New Sentiment Recognition Model
+[33m413c889[m readme updata
+[33m1d4fc52[m Unnecessary file deletion
+[33ma9c1039[m 【gitignore更新】
+[33md2686c4[m 【测试更改】
+[33m4894ed6[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m7c01361[m 【测试更新】
+[33me87ed42[m Update README.md
+[33m6740e5e[m Update README.md
+[33m0fa8970[m Update README.md
+[33me84939a[m Update README.md
+[33me46c61b[m 【最终版1】
+[33mc038580[m 【cipingTotal】解决路径错误
+[33m2713bf9[m 话题预测界面
+[33m82bf846[m 摘虫
+[33mcc8468d[m Merge remote-tracking branch 'origin/main'
+[33md139169[m 爬虫结束自动打标注
+[33mab8d9f0[m 【数据爬取规则修改】这次以后就不要再用爬虫了，我们的数据库到明天就不要动了
+[33m4ab789a[m 【bug修复】去除掉了两个模块，让项目能够启动不报错
+[33m59b18fa[m 预测函数调通
+[33mf7939fa[m 【app.py】注释部分情感分析相关代码
+[33ma617602[m 爬虫结束自动打标注
+[33m406939e[m 爬虫结束自动打标注
+[33m52bc002[m Merge remote-tracking branch 'origin/main'
+[33mb3b3cff[m 爬虫结束自动打标注
+[33m0f0b170[m 【app.py】修正调度器bug
+[33mc922596[m 【model】情感分析模型添加说明
+[33m2385f85[m Merge remote-tracking branch 'origin/main'
+[33mf0449e7[m 舆情预测函数定义
+[33me6008ed[m 【app.py】调度器调度cutComments.py和cipingTotal.py
+[33ma491308[m 优化爬虫代码
+[33mb9558ad[m 修改爬虫bug
+[33m579cb81[m 【trainModel.py】注释部分信息
+[33ma528029[m 【trainModel.py】修改使文件可以运行
+[33ma1d1e8d[m 【page.py】【getTableData.py】修改import
+[33m70e82a2[m 舆情函数调通
+[33me43615d[m 【getEchartsData.py】修改正面/中性/负面的判断值
+[33m35b908e[m 舆情函数定义
+[33md8f1f47[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m0855466[m 舆情函数定义
+[33m93b72ea[m 【snownlp相关文件】上传自己的模型，调用utils/mynlp
+[33mf09fcb3[m 【model2】话题识别模型完成！！效果嘎嘎好！！
+[33mab7f4be[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m00d38ca[m 【gitignore】git忽略文件添加
+[33mc7533a4[m 【wordCloudPicture.py】修改数据库连接的相关信息
+[33mc5f5d59[m 【saveData.py】【query.py】修改数据库连接IP
+[33m9bebd20[m 优化爬虫代码
+[33mfe1e028[m 【前端小修改】登陆注册、侧边栏描述文字小修改
+[33m51f2cc2[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m9600130[m 【login_and_register.html】描述修改
+[33m0e07e51[m 【predict_demo】预测 demo，用于演示预测逻辑
+[33m987fdfb[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33md7da8b9[m 【登陆注册】彻底完成
+[33mc068643[m 增加spider脚本，每5小时爬取一次数据
+[33mcfe1fdc[m 【getPublicData.py】添加getAllTopics函数初步
+[33m7e366e0[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m1b19855[m 【user.py】登录控制器修改
+[33md0b92e9[m 【getTopicPageData】修改注释
+[33md67cc6c[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m84214d7[m 【登陆注册】界面修改到一个html，统一接口
+[33me49fc0e[m 【user.py】删除后端注册过程中的确认密码逻辑，确认密码在前端完成
+[33mafd50ff[m 【page.py】添加话题页接口
+[33m9c2740c[m 【getTopicPageData】重命名函数 getCommentFilterData -> getCommentFilterDataTopic ，解决冲突
+[33mc5b0acd[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mcd4d568[m 【登录页】初始化中
+[33m17d15ed[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33me96d14d[m 【getTopicPageData】话题工具类
+[33m4e0c977[m 【登录界面】原始人，启动！
+[33m4b1af05[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m8eae834[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m846c921[m 修复爬虫bug
+[33m6cf1cee[m 【createTables.sql】修改建表语句，增加topic列
+[33m11f993f[m Merge branch 'main' of github.com:666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m1edb52a[m 修复爬虫bug
+[33md3fbafc[m 【删除静态文件】别他妈往上推了
+[33me497df7[m 数据库连接改错了
+[33mfdaf80c[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mba9fe57[m bug修改
+[33m3acbb1e[m 【user.py】修复了密码值返回的是函数的 Bug
+[33m86533a5[m 【user.py】修复了哈希是全局变量的bug
+[33mc3a95d7[m 【删除生成文件】page.cpython-38.pyc
+[33m98870f6[m 【gitignore】忽略生成文件
+[33macc2732[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33md2f1064[m 【user.py】密码存储方式调整为哈希加盐
+[33m4fae040[m Merge branch 'main' of github.com:666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mfcc847e[m 修复爬虫bug
+[33m510f09a[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m261dfa4[m 【情感分析模块】正面负面中性的判断标准更改
+[33mb3f0ea0[m 修改spider文件夹结构，优化数据爬取结构，实现模块化
+[33mf98d111[m 【大修bug】添加csv表格原始数据，修改词频统计函数bug
+[33md93da88[m 【bug修复】login小问题修改
+[33m604dab7[m 【bug修复】date改成data
+[33m97e94c2[m 【app.py】路径配置
+[33m468455e[m 【展示页完善】各种子菜单的显示完善
+[33mbe340f4[m 【index.js】统一封装js函数，方便调用
+[33mff7cef5[m 【Bootstrap4】Bootstrap 4管理仪表板模板，用于管理面板和仪表板以及添加页面监听器
+[33mad11069[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mfb203c6[m 【词云.html】接收py函数返回的词云图，展示在前端中
+[33mc328485[m 【commentChar.html】评论分析前端页面JS编写
+[33ma27d733[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m2ec07c6[m 【commentChar.html】评论分析前端页面设计
+[33m0bfd76c[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m147bf0f[m 【articleChar】文章分析页面JS编写
+[33me94ba38[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m00f047a[m 【slider】实现侧边菜单栏，响应式布局，支持多级菜单，支持主题切换
+[33m5c985a4[m 【errorResponse.py】重命名errResp
+[33m1c58d28[m 【requirements.txt】添加完整依赖
+[33me1d4c57[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m3e4f139[m 【articleChar.html】文章分析前端页面设计
+[33m061a2a1[m 【base_page.html】基础首页框架搭建
+[33m46cb230[m 【ipChar.html】ip地图页面完善
+[33m68753fc[m Merge branch 'main' of github.com:666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mf3b64ee[m 修改【main.py】，增加【saveData.py】，将数据存储模块与调度模块分离
+[33m1d2fab3[m 【ipChar.html】ip地图页面初步框架
+[33m5468d64[m 【地图配置】初始化三个不同的交互式世界地图
+[33m6356721[m 【jQuery 3.6.0】jQuery库中的方法导入
+[33mb54deff[m 【three.js】这个不用多说什么了吧，就是three.js的核心代码
+[33m8702f4f[m 【01/02.js】创建并配置多个ApexCharts图表和Leaflet地图，响应主题颜色变化
+[33ma7ccae8[m 【中国地图echart】注册中国地理数据到ECharts库中的js
+[33mf21e377[m 【echart】echart可视化图表插件的js导入
+[33me65398d[m 【日历功能】日视图和周视图的css引用
+[33mc54d844[m 【日历功能】完成日历插件的引用，并配置完成了响应的css样式
+[33me7b2f58[m 【UI通用CSS】Datum样式引用
+[33m77297fd[m 【loader】前端添加加载效果
+[33m1d0486f[m 【trainModel.py】修改代码打印输出，基于snownlp生成结果，利用多项式朴素贝叶斯分类器进行训练
+[33md59cf9a[m 【yuqing.py】更新代码，能在文件夹下直接运行
+[33mdeefba1[m 【删除sentiment.marshal.3.py】完善项目结构
+[33m4e66c15[m 【sentiment.marshal.3】snownlp重新训练模型
+[33m3793c64[m 【font】项目字体文件上传
+[33m7b6de22[m 【图片素材】静态资源上传
+[33mb816f1c[m 【代码优化】优化静态js、css文件的加载方式
+[33m7ac7495[m 【UI组件】部分UI组件模板修改
+[33m38dd668[m 【app.py】添加路由拦截器：错误路径跳转404
+[33mef1d471[m 【app.py】退出登录后清楚session
+[33m8cf7385[m 【404.html】优化页面逻辑，增加返回主页按钮
+[33m88991e7[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m82fc080[m 【error.html】优化500页面，直观展示错误信息
+[33m14f0cfb[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m347bfd0[m hong
+[33m2d62acd[m 【error.html】500界面美化
+[33ma4f29df[m 【error.html】500错误页面前端设计
+[33mdbbd03f[m 【404.html】完成404页面的前端设计
+[33mbbd036c[m hong
+[33mc4e0c22[m hong
+[33m07496a6[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m37df0f5[m hong
+[33m01ed2ce[m 【createTables.sql】实现数据库所有表的创建
+[33m24a8184[m 【main.py】实现完整的爬取数据过程，并将爬取的数据存储到数据库中
+[33m28e0402[m Merge branch 'main' of github.com:666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mca357b2[m bug修改
+[33ma6601ea[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m6a191d2[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mceb9d6b[m hong
+[33m46bbc00[m 【getTableData.py】情感分析接管数据的函数定义
+[33m3ee5a70[m hong
+[33m43519f8[m 【spiderComments.py】实现文章评论爬取
+[33mf4f9c09[m 【spiderContent.py】实现文章内容爬取
+[33m650db1c[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m1e93ed6[m 【spiderNav.py】实现导航栏爬取
+[33md2b2a26[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m2af147f[m 【getHowWordPageData.py】提取热词和相关函数定义
+[33mae2318c[m test
+[33m6c1f54d[m test
+[33m3356271[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m00bed3a[m 【register.html】基于base_login完成注册界面
+[33md5f19e9[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33ma94d2cd[m 【cutComments.py】分词统计词频函数定义
+[33mc7f6c15[m 【login_base.html】完成登录界面
+[33m5078118[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m9bc4d00[m 【getEchartsData.py】对数据库获取到的数据按要求处理的函数
+[33m7f5d2a0[m 【user.py】添加登出接口
+[33m30e9c5a[m 【user.py】添加注册接口
+[33mc7e8411[m 【user.py】添加登录接口
+[33m5175cc4[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mc9424af[m 【errResp.py】添加错误类
+[33m6ab4b3d[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m2415b4e[m 【getPublicData.py】从数据库中获取数据函数定义
+[33mbfcf884[m 【.gitignore】忽略本地环境
+[33m7005cd3[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mef5fd5b[m 【query.py】连接数据库函数的编写
+[33m8e628e2[m 初始化 user 模块
+[33m02c9197[m 【UI模板介绍.md】给出了UI组件源地址
+[33m7235f7a[m 【整体架构设计】设定了整个项目的框架，包括了项目的目录结构、模块划分、模块之间的调用关系等。
+[33m8212781[m 【app.py】项目入口文件，helloFlask！
+[33mbc669ec[m 【Datum_UImodel】后台组件模板
+[33mba807a4[m 【成员分工.md】模块修改
+[33m69c9f5d[m 【成员分工.md】错误修改
+[33m4a4983d[m 【成员分工.md】分工修改
+[33m3141cc7[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33m6890f30[m 【成员分工.md】成员分工
+[33m42dfac5[m Merge branch 'main' of https://github.com/666ghj/Weibo_PublicOpinion_AnalysisSystem
+[33mebe3844[m juanboy
+[33me352608[m 【README.md】描述修改
+[33mdef8e30[m 【git测试】提交测试
+[33mf566291[m 【git测试】首次提交测试
+[33m2e22a0b[m Initial commit
