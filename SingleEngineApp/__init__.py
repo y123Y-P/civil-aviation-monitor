@@ -1,4 +1,4 @@
-from flask import Flask, session  # 🔴 关键：添加 session 导入！
+from flask import Flask, session,render_template
 
 def create_app():
     """应用工厂函数 - 初始化Flask应用，注册蓝图和核心配置"""
@@ -13,8 +13,14 @@ def create_app():
     # 首页路由（验证登录状态）
     @app.route('/')
     def index():
-        # 现在 session 已导入，不会报错
-        return "欢迎回来！<br><a href='/logout'>退出登录</a>" if 'username' in session else "请先登录<br><a href='/login'>前往登录</a>"
-    
+        if 'username' in session:
+            # 登录成功：渲染 templates/index.html 模板，传递用户名
+            return render_template('index.html', username=session['username'])
+        else:
+            # 未登录：直接跳转到登录页（更友好）
+            return "请先登录<br><a href='/login'>前往登录</a>" 
     return app
+
+
+
 
