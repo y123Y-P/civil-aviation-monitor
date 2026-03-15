@@ -13,6 +13,8 @@
         :root { --console-offset: 52px; }
         .page-actions { position: fixed; top: 16px; right: 18px; display: flex; gap: 10px; z-index: 100; }
         .video-upload { border: 2px dashed #3b82f6; border-radius: 12px; padding: 2rem; text-align: center; }
+        #search-btn { cursor: pointer; }
+        #search-btn:hover { background-color: #2563eb; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
@@ -51,7 +53,7 @@
                     </div>
                     <input type="text" id="query-input" class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" placeholder="例如：充电宝安全、航班延误...">
                 </div>
-                <button id="search-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition shadow-sm hover:shadow flex items-center justify-center">
+                <button id="search-btn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition shadow-sm hover:shadow flex items-center justify-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -97,6 +99,22 @@
             </div>
         </div>
 
+        <div class="bg-white rounded-xl border border-gray-100 p-6 mb-8" id="system-control">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div id="system-status-indicator" class="w-3 h-3 rounded-full bg-gray-400 mr-3"></div>
+                    <span id="system-status-text" class="text-gray-600">系统状态：未启动</span>
+                </div>
+                <button id="start-system-btn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition shadow-sm">
+                    <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    启动系统
+                </button>
+            </div>
+        </div>
+
         <div class="text-right" id="report-actions" style="display:none;">
             <button id="export-btn" class="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm transition">
                 <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,173 +137,569 @@
     </div>
 
     <script>
-        const socket = io();
+        console.log('=== 页面脚本开始加载 ===');
+        
+        // 全局变量
+        let socket;
         let analysisTimer;
+        
+        // 初始化Socket.IO
+        try {
+            socket = io();
+            console.log('Socket.IO 初始化成功');
+        } catch (e) {
+            console.error('Socket.IO 初始化失败:', e);
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        // DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== DOM已加载完成 ===');
+            
+            // 获取DOM元素
             const uploadArea = document.getElementById('upload-area');
             const fileInput = document.getElementById('file-input');
             const searchBtn = document.getElementById('search-btn');
+            const queryInput = document.getElementById('query-input');
             const exportBtn = document.getElementById('export-btn');
             const exportPdfBtn = document.getElementById('export-pdf');
+            const startSystemBtn = document.getElementById('start-system-btn');
+            const systemStatusIndicator = document.getElementById('system-status-indicator');
+            const systemStatusText = document.getElementById('system-status-text');
+
+            console.log('DOM元素检查:', {
+                searchBtn: searchBtn ? '找到' : '未找到',
+                queryInput: queryInput ? '找到' : '未找到',
+                uploadArea: uploadArea ? '找到' : '未找到',
+                fileInput: fileInput ? '找到' : '未找到'
+            });
+
+            function updateSystemStatus(status) {
+                if (systemStatusIndicator && systemStatusText) {
+                    if (status === 'running') {
+                        systemStatusIndicator.className = 'w-3 h-3 rounded-full bg-green-500 mr-3';
+                        systemStatusText.textContent = '系统状态：运行中';
+                        if (startSystemBtn) {
+                            startSystemBtn.textContent = '系统已启动';
+                            startSystemBtn.disabled = true;
+                            startSystemBtn.className = 'bg-gray-400 text-white px-6 py-2 rounded-lg font-medium cursor-not-allowed';
+                        }
+                    } else if (status === 'starting') {
+                        systemStatusIndicator.className = 'w-3 h-3 rounded-full bg-yellow-500 mr-3 animate-pulse';
+                        systemStatusText.textContent = '系统状态：启动中...';
+                        if (startSystemBtn) {
+                            startSystemBtn.textContent = '启动中...';
+                            startSystemBtn.disabled = true;
+                            startSystemBtn.className = 'bg-yellow-500 text-white px-6 py-2 rounded-lg font-medium cursor-wait';
+                        }
+                    } else {
+                        systemStatusIndicator.className = 'w-3 h-3 rounded-full bg-gray-400 mr-3';
+                        systemStatusText.textContent = '系统状态：未启动';
+                    }
+                }
+            }
+
+            if (startSystemBtn) {
+                startSystemBtn.onclick = function() {
+                    console.log('>>> 启动系统按钮被点击 <<<');
+                    updateSystemStatus('starting');
+                    
+                    fetch('/api/system/start', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        console.log('系统启动响应:', data);
+                        if (data.success) {
+                            updateSystemStatus('running');
+                            alert('系统启动成功！现在可以使用搜索功能。');
+                        } else {
+                            updateSystemStatus('stopped');
+                            alert('系统启动失败: ' + data.message);
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('启动请求错误:', error);
+                        updateSystemStatus('stopped');
+                        alert('启动请求失败: ' + error.message);
+                    });
+                };
+            }
+
+            fetch('/api/system/status')
+                .then(function(res) { return res.json(); })
+                .then(function(data) {
+                    if (data.started) {
+                        updateSystemStatus('running');
+                    }
+                })
+                .catch(function(e) { console.log('获取系统状态失败:', e); });
+
+            // 检查搜索按钮
+            if (!searchBtn) {
+                console.error('错误：搜索按钮未找到！');
+                return;
+            }
+
+            // 绑定搜索按钮点击事件
+            searchBtn.onclick = function(e) {
+                console.log('>>> 搜索按钮被点击 <<<');
+                handleSearch();
+            };
+            
+            console.log('搜索按钮事件已绑定');
+            
+            // 绑定输入框回车事件
+            if (queryInput) {
+                queryInput.onkeydown = function(e) {
+                    if (e.key === 'Enter') {
+                        console.log('>>> 回车键被按下 <<<');
+                        e.preventDefault();
+                        handleSearch();
+                    }
+                };
+            }
+
+            // 搜索功能
+            function handleSearch() {
+                console.log('=== 开始搜索 ===');
+                
+                const query = queryInput ? queryInput.value.trim() : '';
+                console.log('搜索关键词:', query);
+                
+                if (!query) {
+                    alert('请输入搜索关键词');
+                    return;
+                }
+                
+                // 更新UI状态
+                const currentTask = document.getElementById('current-task');
+                const progressStatus = document.getElementById('progress-status');
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                const reportActions = document.getElementById('report-actions');
+                
+                if (currentTask) currentTask.textContent = '搜索中：' + query;
+                if (progressStatus) progressStatus.textContent = '正在搜索...';
+                if (progressBar) progressBar.style.width = '10%';
+                if (progressPercent) progressPercent.textContent = '10%';
+                if (reportActions) reportActions.style.display = 'none';
+                
+                console.log('准备发送请求到 /api/search');
+                
+                // 发送搜索请求
+                fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: query })
+                })
+                .then(function(res) {
+                    console.log('收到响应，状态码:', res.status);
+                    return res.json();
+                })
+                .then(function(data) {
+                    console.log('解析后的数据:', data);
+                    if (data.success) {
+                        displaySearchResults(data);
+                    } else {
+                        if (progressStatus) progressStatus.textContent = '搜索失败';
+                        if (progressBar) progressBar.style.width = '0%';
+                        if (progressPercent) progressPercent.textContent = '0%';
+                        alert('搜索失败: ' + data.message);
+                    }
+                })
+                .catch(function(error) {
+                    console.error('请求错误:', error);
+                    if (progressStatus) progressStatus.textContent = '请求错误';
+                    if (progressBar) progressBar.style.width = '0%';
+                    if (progressPercent) progressPercent.textContent = '0%';
+                    alert('请求失败: ' + error.message);
+                });
+            }
+            
+            // 显示搜索结果
+            function displaySearchResults(data) {
+                console.log('显示搜索结果:', data);
+                
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                const progressStatus = document.getElementById('progress-status');
+                const currentTask = document.getElementById('current-task');
+                const reportActions = document.getElementById('report-actions');
+                
+                if (progressBar) progressBar.style.width = '100%';
+                if (progressPercent) progressPercent.textContent = '100%';
+                if (progressStatus) progressStatus.textContent = '系统已就绪';
+                if (currentTask) currentTask.textContent = '系统已启动：' + data.query;
+                
+                let resultsHtml = '<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">' +
+                    '<div class="flex items-center mb-4">' +
+                    '<div class="bg-green-100 p-2 rounded-full mr-3">' +
+                    '<svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' +
+                    '</svg></div>' +
+                    '<h3 class="text-2xl font-bold text-gray-800">系统已启动</h3>' +
+                    '</div><p class="text-gray-600 mb-4">请点击下方链接访问各个 Engine 进行搜索：</p><div class="grid grid-cols-1 md:grid-cols-3 gap-4">';
+                
+                if (data.results) {
+                    const engineNames = {
+                        'insight': 'Insight Engine',
+                        'media': 'Media Engine',
+                        'query': 'Query Engine'
+                    };
+                    const engineDesc = {
+                        'insight': '私有舆情数据库深度分析',
+                        'media': '多媒体内容分析',
+                        'query': '知识查询引擎'
+                    };
+                    
+                    for (const [engine, result] of Object.entries(data.results)) {
+                        const engineName = engineNames[engine] || engine;
+                        const desc = engineDesc[engine] || '';
+                        if (result.success && result.url) {
+                            resultsHtml += '<a href="' + result.url + '" target="_blank" class="block bg-blue-50 border border-blue-200 rounded-lg p-4 hover:bg-blue-100 transition">' +
+                                '<h4 class="font-semibold text-blue-800 mb-1">🔗 ' + engineName + '</h4>' +
+                                '<p class="text-blue-600 text-sm">' + desc + '</p>' +
+                                '<p class="text-gray-500 text-xs mt-1">端口: ' + result.port + '</p></a>';
+                        }
+                    }
+                }
+                
+                resultsHtml += '</div><div class="mt-8">' +
+                    '<button id="generate-report-btn" class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-sm">' +
+                    '<svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>' +
+                    '</svg>' +
+                    '生成综合分析报告' +
+                    '</button>' +
+                    '<div id="report-progress" class="mt-4 hidden">' +
+                    '<div class="w-full bg-gray-200 rounded-full h-2.5">' +
+                    '<div id="report-progress-bar" class="bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>' +
+                    '</div>' +
+                    '<p id="report-status" class="text-sm text-gray-600 mt-2">准备生成报告...</p>' +
+                    '</div>' +
+                    '<div id="report-result" class="mt-6 hidden">' +
+                    '<div class="bg-white rounded-xl border border-gray-100 p-4">' +
+                    '<h4 class="font-semibold text-gray-800 mb-2">报告生成完成</h4>' +
+                    '<div id="report-downloads" class="space-y-2"></div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div><div class="mt-4 text-sm text-gray-500">' +
+                    '💡 提示：点击上方卡片访问对应的 Engine 进行详细搜索和分析。' +
+                    '</div></div>';
+                
+                if (reportActions) {
+                    reportActions.innerHTML = resultsHtml;
+                    reportActions.style.display = 'block';
+                }
+            }
+
+            // 报告生成处理
+            function setupReportGeneration() {
+                const generateBtn = document.getElementById('generate-report-btn');
+                if (generateBtn) {
+                    generateBtn.addEventListener('click', function() {
+                        const query = document.getElementById('search-input').value.trim();
+                        if (!query) {
+                            alert('请先输入搜索关键词');
+                            return;
+                        }
+
+                        const progressDiv = document.getElementById('report-progress');
+                        const progressBar = document.getElementById('report-progress-bar');
+                        const statusText = document.getElementById('report-status');
+                        const resultDiv = document.getElementById('report-result');
+                        const downloadsDiv = document.getElementById('report-downloads');
+
+                        if (progressDiv) progressDiv.classList.remove('hidden');
+                        if (resultDiv) resultDiv.classList.add('hidden');
+                        if (statusText) statusText.textContent = '正在初始化报告生成...';
+                        if (progressBar) progressBar.style.width = '0%';
+
+                        // 调用 ReportEngine 生成报告
+                        fetch('/api/report/generate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                query: query,
+                                template: 'default',
+                                sources: ['insight', 'media', 'query']
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success && data.task_id) {
+                                const taskId = data.task_id;
+                                startReportProgress(taskId, progressBar, statusText, resultDiv, downloadsDiv);
+                            } else {
+                                if (statusText) statusText.textContent = '报告生成失败: ' + (data.message || '未知错误');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('报告生成请求失败:', error);
+                            if (statusText) statusText.textContent = '请求失败: ' + error.message;
+                        });
+                    });
+                }
+            }
+
+            function startReportProgress(taskId, progressBar, statusText, resultDiv, downloadsDiv) {
+                const eventSource = new EventSource(`/api/report/stream/${taskId}`);
+                
+                eventSource.addEventListener('progress', function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.progress !== undefined) {
+                            if (progressBar) progressBar.style.width = data.progress + '%';
+                        }
+                        if (data.message) {
+                            if (statusText) statusText.textContent = data.message;
+                        }
+                    } catch (e) {
+                        console.error('解析进度事件失败:', e);
+                    }
+                });
+
+                eventSource.addEventListener('complete', function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.success) {
+                            if (progressBar) progressBar.style.width = '100%';
+                            if (statusText) statusText.textContent = '报告生成完成！';
+                            showReportResults(taskId, resultDiv, downloadsDiv);
+                        } else {
+                            if (statusText) statusText.textContent = '报告生成失败: ' + (data.message || '未知错误');
+                        }
+                    } catch (e) {
+                        console.error('解析完成事件失败:', e);
+                    } finally {
+                        eventSource.close();
+                    }
+                });
+
+                eventSource.addEventListener('error', function() {
+                    console.error('SSE 连接错误');
+                    eventSource.close();
+                });
+            }
+
+            function showReportResults(taskId, resultDiv, downloadsDiv) {
+                if (resultDiv) resultDiv.classList.remove('hidden');
+                if (downloadsDiv) {
+                    downloadsDiv.innerHTML = `
+                        <a href="/api/report/download/${taskId}" target="_blank" class="block bg-blue-50 border border-blue-200 rounded-lg p-3 hover:bg-blue-100 transition">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-blue-800">下载 HTML 报告</p>
+                                    <p class="text-sm text-blue-600">完整分析报告</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/api/report/export/md/${taskId}" target="_blank" class="block bg-green-50 border border-green-200 rounded-lg p-3 hover:bg-green-100 transition">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-green-800">导出 Markdown</p>
+                                    <p class="text-sm text-green-600">便于编辑和分享</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="/api/report/export/pdf/${taskId}" target="_blank" class="block bg-purple-50 border border-purple-200 rounded-lg p-3 hover:bg-purple-100 transition">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium text-purple-800">导出 PDF</p>
+                                    <p class="text-sm text-purple-600">专业格式文档</p>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                }
+            }
 
             // 视频上传处理
-            uploadArea.addEventListener('click', () => fileInput.click());
-            fileInput.addEventListener('change', handleVideoUpload);
+            if (uploadArea) {
+                uploadArea.addEventListener('click', function() {
+                    if (fileInput) fileInput.click();
+                });
+            }
+            
+            if (fileInput) {
+                fileInput.addEventListener('change', handleVideoUpload);
+            }
 
             // 拖放支持
-            uploadArea.addEventListener('dragover', e => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#3b82f6';
-                uploadArea.style.backgroundColor = '#dbeafe';
-            });
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.style.borderColor = '#e5e7eb';
-                uploadArea.style.backgroundColor = '';
-            });
-            uploadArea.addEventListener('drop', e => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#e5e7eb';
-                uploadArea.style.backgroundColor = '';
-                if (e.dataTransfer.files.length) {
-                    fileInput.files = e.dataTransfer.files;
-                    handleVideoUpload();
-                }
-            });
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = '#3b82f6';
+                    uploadArea.style.backgroundColor = '#dbeafe';
+                });
+                uploadArea.addEventListener('dragleave', function() {
+                    uploadArea.style.borderColor = '#e5e7eb';
+                    uploadArea.style.backgroundColor = '';
+                });
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = '#e5e7eb';
+                    uploadArea.style.backgroundColor = '';
+                    if (e.dataTransfer.files.length && fileInput) {
+                        fileInput.files = e.dataTransfer.files;
+                        handleVideoUpload();
+                    }
+                });
+            }
 
             // 视频上传逻辑
             function handleVideoUpload() {
-                const file = fileInput.files[0];
+                const file = fileInput ? fileInput.files[0] : null;
                 if (!file) return;
                 
-                // 格式验证
                 const validTypes = ['video/mp4', 'video/avi', 'video/mov'];
                 if (!validTypes.includes(file.type)) {
                     alert('错误：仅支持MP4/AVI/MOV格式的民航视频');
                     return;
                 }
                 
-                // 更新UI
-                document.getElementById('current-task').textContent = `分析中：${file.name}`;
-                document.getElementById('progress-status').textContent = '视频上传中...';
-                document.getElementById('progress-bar').style.width = '0%';
-                document.getElementById('progress-percent').textContent = '0%';
-                document.getElementById('report-actions').style.display = 'none';
+                const currentTask = document.getElementById('current-task');
+                const progressStatus = document.getElementById('progress-status');
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                const reportActions = document.getElementById('report-actions');
                 
-                // 上传到后端
+                if (currentTask) currentTask.textContent = '分析中：' + file.name;
+                if (progressStatus) progressStatus.textContent = '视频上传中...';
+                if (progressBar) progressBar.style.width = '0%';
+                if (progressPercent) progressPercent.textContent = '0%';
+                if (reportActions) reportActions.style.display = 'none';
+                
                 const formData = new FormData();
                 formData.append('video', file);
                 
                 fetch('/upload_video', { method: 'POST', body: formData })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (data.success && socket) {
                             socket.emit('start_video_analysis', { 
                                 video_id: data.video_id,
                                 filename: file.name
                             });
                             startTimer();
                         } else {
-                            alert(`上传失败: ${data.message}`);
+                            alert('上传失败: ' + data.message);
                         }
                     });
             }
 
-            // 分析进度更新
-            socket.on('video_analysis_progress', data => {
-                const bar = document.getElementById('progress-bar');
-                const percent = document.getElementById('progress-percent');
-                const status = document.getElementById('progress-status');
-                
-                bar.style.width = `${data.progress}%`;
-                percent.textContent = `${data.progress}%`;
-                
-                // 状态更新
-                if (data.progress < 30) status.textContent = '视频帧提取中...';
-                else if (data.progress < 60) status.textContent = '内容语义分析中...';
-                else if (data.progress < 85) status.textContent = '情感分析中...';
-                else status.textContent = '报告生成中...';
-            });
+            // Socket.IO事件监听
+            if (socket) {
+                socket.on('video_analysis_progress', function(data) {
+                    const bar = document.getElementById('progress-bar');
+                    const percent = document.getElementById('progress-percent');
+                    const status = document.getElementById('progress-status');
+                    
+                    if (bar) bar.style.width = data.progress + '%';
+                    if (percent) percent.textContent = data.progress + '%';
+                    
+                    if (status) {
+                        if (data.progress < 30) status.textContent = '视频帧提取中...';
+                        else if (data.progress < 60) status.textContent = '内容语义分析中...';
+                        else if (data.progress < 85) status.textContent = '情感分析中...';
+                        else status.textContent = '报告生成中...';
+                    }
+                });
 
-            // 分析完成
-            socket.on('video_analysis_complete', report => {
-                clearInterval(analysisTimer);
-                document.getElementById('current-task').textContent = `分析完成：${report.title}`;
-                document.getElementById('progress-status').textContent = '分析完成';
-                document.getElementById('progress-bar').style.width = '100%';
-                document.getElementById('progress-percent').textContent = '100%';
-                
-                // 显示报告
-                const reportContent = `
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-800">${report.title}</h3>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-600 mb-2">🔍 视频摘要</h4>
-                                <p class="text-gray-600 leading-relaxed">${report.summary}</p>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-600 mb-2">📊 情感分析</h4>
-                                <div class="mt-2">
-                                    <div class="flex justify-between mb-1">
-                                        <span class="text-gray-600">整体情感</span>
-                                        <span class="font-medium">${report.sentiment}</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div class="bg-${report.sentiment_score > 50 ? 'green' : 'red'}-500 h-2.5 rounded-full" style="width: ${report.sentiment_score}%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <h4 class="font-semibold text-blue-600 flex items-center mb-3">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                热点话题分析
-                            </h4>
-                            <div class="flex flex-wrap gap-2">
-                                ${report.topics.map(t => `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">#${t}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // 显示报告
-                document.getElementById('report-actions').innerHTML = reportContent;
-                document.getElementById('report-actions').style.display = 'block';
-                
-                // 显示导出按钮
-                document.querySelector('.page-actions').style.display = 'flex';
-            });
+                socket.on('video_analysis_complete', function(report) {
+                    clearInterval(analysisTimer);
+                    const currentTask = document.getElementById('current-task');
+                    const progressStatus = document.getElementById('progress-status');
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressPercent = document.getElementById('progress-percent');
+                    const reportActions = document.getElementById('report-actions');
+                    
+                    if (currentTask) currentTask.textContent = '分析完成：' + report.title;
+                    if (progressStatus) progressStatus.textContent = '分析完成';
+                    if (progressBar) progressBar.style.width = '100%';
+                    if (progressPercent) progressPercent.textContent = '100%';
+                    
+                    let topicsHtml = '';
+                    if (report.topics && report.topics.length) {
+                        topicsHtml = report.topics.map(function(t) {
+                            return '<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">#' + t + '</span>';
+                        }).join('');
+                    }
+                    
+                    const reportContent = '<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">' +
+                        '<div class="flex items-center mb-4">' +
+                        '<div class="bg-blue-100 p-2 rounded-full mr-3">' +
+                        '<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>' +
+                        '</svg></div>' +
+                        '<h3 class="text-2xl font-bold text-gray-800">' + report.title + '</h3></div>' +
+                        '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">' +
+                        '<div class="bg-gray-50 p-4 rounded-lg">' +
+                        '<h4 class="font-semibold text-blue-600 mb-2">🔍 视频摘要</h4>' +
+                        '<p class="text-gray-600 leading-relaxed">' + report.summary + '</p></div>' +
+                        '<div class="bg-gray-50 p-4 rounded-lg">' +
+                        '<h4 class="font-semibold text-blue-600 mb-2">📊 情感分析</h4>' +
+                        '<div class="mt-2"><div class="flex justify-between mb-1">' +
+                        '<span class="text-gray-600">整体情感</span>' +
+                        '<span class="font-medium">' + report.sentiment + '</span></div>' +
+                        '<div class="w-full bg-gray-200 rounded-full h-2.5">' +
+                        '<div class="bg-' + (report.sentiment_score > 50 ? 'green' : 'red') + '-500 h-2.5 rounded-full" style="width: ' + report.sentiment_score + '%"></div>' +
+                        '</div></div></div></div>' +
+                        '<div class="mb-6"><h4 class="font-semibold text-blue-600 flex items-center mb-3">' +
+                        '<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">' +
+                        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>' +
+                        '</svg>热点话题分析</h4>' +
+                        '<div class="flex flex-wrap gap-2">' + topicsHtml + '</div></div></div>';
+                    
+                    if (reportActions) {
+                        reportActions.innerHTML = reportContent;
+                        reportActions.style.display = 'block';
+                    }
+                    
+                    const pageActions = document.querySelector('.page-actions');
+                    if (pageActions) pageActions.style.display = 'flex';
+                });
+            }
 
             // 计时器
             function startTimer() {
                 let seconds = 0;
-                analysisTimer = setInterval(() => {
+                analysisTimer = setInterval(function() {
                     seconds++;
                     const mins = Math.floor(seconds / 60);
                     const secs = seconds % 60;
-                    document.getElementById('timer').textContent = 
-                        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                    const timer = document.getElementById('timer');
+                    if (timer) {
+                        timer.textContent = mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+                    }
                 }, 1000);
             }
 
             // 导出PDF
-            exportBtn?.addEventListener('click', () => {
-                const reportContent = document.getElementById('report-actions').innerHTML;
-                // 实际导出逻辑（需配合jspdf）
-                alert('PDF导出功能已启用，请点击右上角导出按钮');
-            });
+            if (exportBtn) {
+                exportBtn.onclick = function() {
+                    alert('PDF导出功能已启用');
+                };
+            }
+            
+            // 初始化报告生成功能
+            setupReportGeneration();
+            
+            console.log('=== 所有事件监听器绑定完成 ===');
         });
     </script>
 </body>
