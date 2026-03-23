@@ -1,5 +1,5 @@
 """
-Flask主应用 - 统一管理三个Streamlit应用
+FastAPI 主应用 - 统一管理三个 Streamlit 应用
 """
 
 import os
@@ -10,69 +10,83 @@ os.environ['PYTHONIOENCODING'] = 'utf-8'
 os.environ['PYTHONUTF8'] = '1'
 os.environ['PYTHONUNBUFFERED'] = '1'  # 禁用Python输出缓冲，确保日志实时输出
 
+import asyncio
 import subprocess
 import time
 import threading
 from datetime import datetime
 from queue import Queue
-from flask import Flask, render_template, request, jsonify, Response
-from flask_socketio import SocketIO, emit
 import atexit
 import requests
 from loguru import logger
 import importlib
 from pathlib import Path
+from typing import Any, Dict, Optional
+
+import socketio
+from fastapi import FastAPI, Request, Body
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from starlette.templating import Jinja2Templates
+
 from MindSpider.main import MindSpider
 
-# 导入ReportEngine
+# 导入 ReportEngine（FastAPI 路由）
 try:
-    from ReportEngine.flask_interface import report_bp, initialize_report_engine
+    from ReportEngine.fastapi_interface import report_router, initialize_report_engine
     REPORT_ENGINE_AVAILABLE = True
 except ImportError as e:
     logger.error(f"ReportEngine导入失败: {e}")
     REPORT_ENGINE_AVAILABLE = False
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Dedicated-to-creating-a-concise-and-versatile-public-opinion-analysis-platform'
-socketio = SocketIO(app, cors_allowed_origins="*")
+fastapi_app = FastAPI(
+    title="BettaFish",
+    description="微舆 - 多智能体舆情分析平台",
+    version="1.2.1",
+)
 
-# eventlet 在客户端主动断开时偶尔会抛出 ConnectionAbortedError，这里做一次防御性包裹，
-# 避免无意义的堆栈污染日志（仅在 eventlet 可用时启用）。
-def _patch_eventlet_disconnect_logging():
-    try:
-        import eventlet.wsgi  # type: ignore
-    except Exception as exc:  # pragma: no cover - 仅在生产环境有效
-        logger.debug(f"eventlet 不可用，跳过断开补丁: {exc}")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+fastapi_app.mount(
+    "/static",
+    StaticFiles(directory=str(BASE_DIR / "static")),
+    name="static",
+)
+
+# Socket.IO（与现有 socket.io 客户端协议兼容），挂载在 ASGI 最外层
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
+socketio_app = socketio.ASGIApp(sio, other_asgi_app=fastapi_app)
+
+_asyncio_loop: Optional[asyncio.AbstractEventLoop] = None
+
+
+async def _async_sio_emit(event: str, data, **kwargs):
+    await sio.emit(event, data, **kwargs)
+
+
+def broadcast_sio(event: str, data, **kwargs):
+    """从任意线程向所有 Socket.IO 客户端广播（需在事件循环启动后调用）。"""
+    loop = _asyncio_loop
+    if loop is None:
         return
-
     try:
-        original_finish = eventlet.wsgi.HttpProtocol.finish  # type: ignore[attr-defined]
-    except Exception as exc:  # pragma: no cover
-        logger.debug(f"eventlet 缺少 HttpProtocol.finish，跳过断开补丁: {exc}")
-        return
+        fut = asyncio.run_coroutine_threadsafe(
+            _async_sio_emit(event, data, **kwargs), loop
+        )
+        fut.result(timeout=2.0)
+    except Exception:  # pragma: no cover
+        logger.exception("Socket.IO 广播失败")
 
-    def _safe_finish(self, *args, **kwargs):  # pragma: no cover - 运行时才会触发
-        try:
-            return original_finish(self, *args, **kwargs)
-        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError) as exc:
-            try:
-                environ = getattr(self, 'environ', {}) or {}
-                method = environ.get('REQUEST_METHOD', '')
-                path = environ.get('PATH_INFO', '')
-                logger.warning(f"客户端已主动断开，忽略异常: {method} {path} ({exc})")
-            except Exception:
-                logger.warning(f"客户端已主动断开，忽略异常: {exc}")
-            return
 
-    eventlet.wsgi.HttpProtocol.finish = _safe_finish  # type: ignore[attr-defined]
-    logger.info("已对 eventlet 连接中断进行安全防护")
+@fastapi_app.on_event("startup")
+async def _capture_asyncio_loop():
+    global _asyncio_loop
+    _asyncio_loop = asyncio.get_running_loop()
 
-_patch_eventlet_disconnect_logging()
 
-# 注册ReportEngine Blueprint
 if REPORT_ENGINE_AVAILABLE:
-    app.register_blueprint(report_bp, url_prefix='/api/report')
-    logger.info("ReportEngine接口已注册")
+    fastapi_app.include_router(report_router, prefix="/api/report")
+    logger.info("ReportEngine 接口已注册（FastAPI）")
 else:
     logger.info("ReportEngine不可用，跳过接口注册")
 
@@ -468,12 +482,12 @@ def monitor_forum_log():
                                 # 解析日志行并发送forum消息
                                 parsed_message = parse_forum_log_line(line)
                                 if parsed_message:
-                                    socketio.emit('forum_message', parsed_message)
+                                    broadcast_sio('forum_message', parsed_message)
 
                                 # 只有在控制台显示forum时才发送控制台消息
                                 timestamp = datetime.now().strftime('%H:%M:%S')
                                 formatted_line = f"[{timestamp}] {line}"
-                                socketio.emit('console_output', {
+                                broadcast_sio('console_output', {
                                     'app': 'forum',
                                     'line': formatted_line
                                 })
@@ -578,7 +592,7 @@ def read_process_output(process, app_name):
                             timestamp = datetime.now().strftime('%H:%M:%S')
                             formatted_line = f"[{timestamp}] {line}"
                             write_log_to_file(app_name, formatted_line)
-                            socketio.emit('console_output', {
+                            broadcast_sio('console_output', {
                                 'app': app_name,
                                 'line': formatted_line
                             })
@@ -598,7 +612,7 @@ def read_process_output(process, app_name):
                         write_log_to_file(app_name, formatted_line)
                         
                         # 发送到前端
-                        socketio.emit('console_output', {
+                        broadcast_sio('console_output', {
                             'app': app_name,
                             'line': formatted_line
                         })
@@ -620,7 +634,7 @@ def read_process_output(process, app_name):
                             write_log_to_file(app_name, formatted_line)
                             
                             # 发送到前端
-                            socketio.emit('console_output', {
+                            broadcast_sio('console_output', {
                                 'app': app_name,
                                 'line': formatted_line
                             })
@@ -889,11 +903,7 @@ def _schedule_server_shutdown(delay_seconds: float = 0.1):
     """在清理完成后尽快退出，避免阻塞当前请求。"""
     def _shutdown():
         time.sleep(delay_seconds)
-        try:
-            socketio.stop()
-        except Exception as exc:  # pragma: no cover
-            logger.warning(f"SocketIO 停止时异常，继续退出: {exc}")
-        _log_shutdown_step("SocketIO 停止指令已发送，即将退出主进程")
+        _log_shutdown_step("主进程即将退出（uvicorn/Socket.IO 随进程结束）")
         os._exit(0)
 
     threading.Thread(target=_shutdown, daemon=True).start()
@@ -926,42 +936,44 @@ def _start_async_shutdown(cleanup_timeout: float = 3.0):
 # 注册清理函数
 atexit.register(cleanup_processes)
 
-@app.route('/')
-def index():
+@fastapi_app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
     """主页"""
-    return render_template('index.html')
+    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.route('/api/status')
+
+@fastapi_app.get("/api/status")
 def get_status():
     """获取所有应用状态"""
     check_app_status()
-    return jsonify({
+    return {
         app_name: {
             'status': info['status'],
             'port': info['port'],
             'output_lines': len(info['output'])
         }
         for app_name, info in processes.items()
-    })
+    }
 
-@app.route('/api/start/<app_name>')
-def start_app(app_name):
+
+@fastapi_app.get("/api/start/{app_name}")
+def start_app(app_name: str):
     """启动指定应用"""
     if app_name not in processes:
-        return jsonify({'success': False, 'message': '未知应用'})
+        return {'success': False, 'message': '未知应用'}
 
     if app_name == 'forum':
         try:
             start_forum_engine()
             processes['forum']['status'] = 'running'
-            return jsonify({'success': True, 'message': 'ForumEngine已启动'})
+            return {'success': True, 'message': 'ForumEngine已启动'}
         except Exception as exc:  # pragma: no cover
             logger.exception("手动启动ForumEngine失败")
-            return jsonify({'success': False, 'message': f'ForumEngine启动失败: {exc}'})
+            return {'success': False, 'message': f'ForumEngine启动失败: {exc}'}
 
     script_path = STREAMLIT_SCRIPTS.get(app_name)
     if not script_path:
-        return jsonify({'success': False, 'message': '该应用不支持启动操作'})
+        return {'success': False, 'message': '该应用不支持启动操作'}
 
     success, message = start_streamlit_app(
         app_name,
@@ -970,153 +982,151 @@ def start_app(app_name):
     )
 
     if success:
-        # 等待应用启动
         startup_success, startup_message = wait_for_app_startup(app_name, 15)
         if not startup_success:
             message += f" 但启动检查失败: {startup_message}"
-    
-    return jsonify({'success': success, 'message': message})
 
-@app.route('/api/stop/<app_name>')
-def stop_app(app_name):
+    return {'success': success, 'message': message}
+
+
+@fastapi_app.get("/api/stop/{app_name}")
+def stop_app(app_name: str):
     """停止指定应用"""
     if app_name not in processes:
-        return jsonify({'success': False, 'message': '未知应用'})
+        return {'success': False, 'message': '未知应用'}
 
     if app_name == 'forum':
         try:
             stop_forum_engine()
             processes['forum']['status'] = 'stopped'
-            return jsonify({'success': True, 'message': 'ForumEngine已停止'})
+            return {'success': True, 'message': 'ForumEngine已停止'}
         except Exception as exc:  # pragma: no cover
             logger.exception("手动停止ForumEngine失败")
-            return jsonify({'success': False, 'message': f'ForumEngine停止失败: {exc}'})
+            return {'success': False, 'message': f'ForumEngine停止失败: {exc}'}
 
     success, message = stop_streamlit_app(app_name)
-    return jsonify({'success': success, 'message': message})
+    return {'success': success, 'message': message}
 
-@app.route('/api/output/<app_name>')
-def get_output(app_name):
+
+@fastapi_app.get("/api/output/{app_name}")
+def get_output(app_name: str):
     """获取应用输出"""
     if app_name not in processes:
-        return jsonify({'success': False, 'message': '未知应用'})
-    
-    # 特殊处理Forum Engine
+        return {'success': False, 'message': '未知应用'}
+
     if app_name == 'forum':
         try:
             forum_log_content = read_log_from_file('forum')
-            return jsonify({
+            return {
                 'success': True,
                 'output': forum_log_content,
                 'total_lines': len(forum_log_content)
-            })
+            }
         except Exception as e:
-            return jsonify({'success': False, 'message': f'读取forum日志失败: {str(e)}'})
-    
-    # 从文件读取完整日志
+            return {'success': False, 'message': f'读取forum日志失败: {str(e)}'}
+
     output_lines = read_log_from_file(app_name)
-    
-    return jsonify({
+    return {
         'success': True,
         'output': output_lines
-    })
+    }
 
-@app.route('/api/test_log/<app_name>')
-def test_log(app_name):
+
+@fastapi_app.get("/api/test_log/{app_name}")
+def test_log(app_name: str):
     """测试日志写入功能"""
     if app_name not in processes:
-        return jsonify({'success': False, 'message': '未知应用'})
-    
-    # 写入测试消息
+        return {'success': False, 'message': '未知应用'}
+
     test_msg = f"[{datetime.now().strftime('%H:%M:%S')}] 测试日志消息 - {datetime.now()}"
     write_log_to_file(app_name, test_msg)
-    
-    # 通过Socket.IO发送
-    socketio.emit('console_output', {
+
+    broadcast_sio('console_output', {
         'app': app_name,
         'line': test_msg
     })
-    
-    return jsonify({
+
+    return {
         'success': True,
         'message': f'测试消息已写入 {app_name} 日志'
-    })
+    }
 
-@app.route('/api/forum/start')
+
+@fastapi_app.get("/api/forum/start")
 def start_forum_monitoring_api():
     """手动启动ForumEngine论坛"""
     try:
         from ForumEngine.monitor import start_forum_monitoring
         success = start_forum_monitoring()
         if success:
-            return jsonify({'success': True, 'message': 'ForumEngine论坛已启动'})
-        else:
-            return jsonify({'success': False, 'message': 'ForumEngine论坛启动失败'})
+            return {'success': True, 'message': 'ForumEngine论坛已启动'}
+        return {'success': False, 'message': 'ForumEngine论坛启动失败'}
     except Exception as e:
-        return jsonify({'success': False, 'message': f'启动论坛失败: {str(e)}'})
+        return {'success': False, 'message': f'启动论坛失败: {str(e)}'}
 
-@app.route('/api/forum/stop')
+
+@fastapi_app.get("/api/forum/stop")
 def stop_forum_monitoring_api():
     """手动停止ForumEngine论坛"""
     try:
         from ForumEngine.monitor import stop_forum_monitoring
         stop_forum_monitoring()
-        return jsonify({'success': True, 'message': 'ForumEngine论坛已停止'})
+        return {'success': True, 'message': 'ForumEngine论坛已停止'}
     except Exception as e:
-        return jsonify({'success': False, 'message': f'停止论坛失败: {str(e)}'})
+        return {'success': False, 'message': f'停止论坛失败: {str(e)}'}
 
-@app.route('/api/forum/log')
+
+@fastapi_app.get("/api/forum/log")
 def get_forum_log():
     """获取ForumEngine的forum.log内容"""
     try:
         forum_log_file = LOG_DIR / "forum.log"
         if not forum_log_file.exists():
-            return jsonify({
+            return {
                 'success': True,
                 'log_lines': [],
                 'parsed_messages': [],
                 'total_lines': 0
-            })
-        
+            }
+
         with open(forum_log_file, 'r', encoding='utf-8', errors='ignore') as f:
             lines = f.readlines()
             lines = [line.rstrip('\n\r') for line in lines if line.strip()]
-        
-        # 解析每一行日志并提取对话信息
+
         parsed_messages = []
         for line in lines:
             parsed_message = parse_forum_log_line(line)
             if parsed_message:
                 parsed_messages.append(parsed_message)
-        
-        return jsonify({
+
+        return {
             'success': True,
             'log_lines': lines,
             'parsed_messages': parsed_messages,
             'total_lines': len(lines)
-        })
+        }
     except Exception as e:
-        return jsonify({'success': False, 'message': f'读取forum.log失败: {str(e)}'})
+        return {'success': False, 'message': f'读取forum.log失败: {str(e)}'}
 
-@app.route('/api/forum/log/history', methods=['POST'])
-def get_forum_log_history():
+
+@fastapi_app.post("/api/forum/log/history")
+def get_forum_log_history(data: Optional[Dict[str, Any]] = Body(None)):
     """获取Forum历史日志（支持从指定位置开始）"""
     try:
-        data = request.get_json()
-        start_position = data.get('position', 0)  # 客户端上次接收的位置
-        max_lines = data.get('max_lines', 1000)   # 最多返回的行数
+        data = data if isinstance(data, dict) else {}
+        start_position = data.get('position', 0)
+        max_lines = data.get('max_lines', 1000)
 
         forum_log_file = LOG_DIR / "forum.log"
         if not forum_log_file.exists():
-            return jsonify({
+            return {
                 'success': True,
                 'log_lines': [],
                 'position': 0,
                 'has_more': False
-            })
+            }
 
         with open(forum_log_file, 'r', encoding='utf-8', errors='ignore') as f:
-            # 从指定位置开始读取
             f.seek(start_position)
             lines = []
             line_count = 0
@@ -1126,95 +1136,89 @@ def get_forum_log_history():
                     break
                 line = line.rstrip('\n\r')
                 if line.strip():
-                    # 添加时间戳
                     timestamp = datetime.now().strftime('%H:%M:%S')
                     formatted_line = f"[{timestamp}] {line}"
                     lines.append(formatted_line)
                     line_count += 1
 
-            # 记录当前位置
             current_position = f.tell()
-
-            # 检查是否还有更多内容
-            f.seek(0, 2)  # 移到文件末尾
+            f.seek(0, 2)
             end_position = f.tell()
             has_more = current_position < end_position
 
-        return jsonify({
+        return {
             'success': True,
             'log_lines': lines,
             'position': current_position,
             'has_more': has_more
-        })
+        }
     except Exception as e:
-        return jsonify({'success': False, 'message': f'读取forum历史失败: {str(e)}'})
+        return {'success': False, 'message': f'读取forum历史失败: {str(e)}'}
 
-@app.route('/api/search', methods=['POST'])
-def search():
+
+@fastapi_app.post("/api/search")
+def search(payload: Optional[Dict[str, Any]] = Body(None)):
     """统一搜索接口"""
-    data = request.get_json()
-    query = data.get('query', '').strip()
-    
+    payload = payload if isinstance(payload, dict) else {}
+    query = (payload.get('query') or '').strip()
+
     if not query:
-        return jsonify({'success': False, 'message': '搜索查询不能为空'})
-    
-    # ForumEngine论坛已经在后台运行，会自动检测搜索活动
-    # logger.info("ForumEngine: 搜索请求已收到，论坛将自动检测日志变化")
-    
-    # 检查哪些应用正在运行
+        return {'success': False, 'message': '搜索查询不能为空'}
+
     check_app_status()
     running_apps = [name for name, info in processes.items() if info['status'] == 'running']
-    
+
     if not running_apps:
-        return jsonify({'success': False, 'message': '没有运行中的应用'})
-    
-    # 向运行中的应用发送搜索请求
+        return {'success': False, 'message': '没有运行中的应用'}
+
     results = {}
     api_ports = {'insight': 8501, 'media': 8502, 'query': 8503}
-    
-    for app_name in running_apps:
+
+    for engine_name in running_apps:
         try:
-            api_port = api_ports[app_name]
-            # 调用Streamlit应用的API端点
+            api_port = api_ports[engine_name]
             response = requests.post(
                 f"http://localhost:{api_port}/api/search",
                 json={'query': query},
                 timeout=10
             )
             if response.status_code == 200:
-                results[app_name] = response.json()
+                results[engine_name] = response.json()
             else:
-                results[app_name] = {'success': False, 'message': 'API调用失败'}
+                results[engine_name] = {'success': False, 'message': 'API调用失败'}
         except Exception as e:
-            results[app_name] = {'success': False, 'message': str(e)}
-    
-    # 搜索完成后可以选择停止监控，或者让它继续运行以捕获后续的处理日志
-    # 这里我们让监控继续运行，用户可以通过其他接口手动停止
-    
-    return jsonify({
+            results[engine_name] = {'success': False, 'message': str(e)}
+
+    return {
         'success': True,
         'query': query,
         'results': results
-    })
+    }
 
 
-@app.route('/api/config', methods=['GET'])
+@fastapi_app.get("/api/config")
 def get_config():
     """Expose selected configuration values to the frontend."""
     try:
         config_values = read_config_values()
-        return jsonify({'success': True, 'config': config_values})
+        return {'success': True, 'config': config_values}
     except Exception as exc:
         logger.exception("读取配置失败")
-        return jsonify({'success': False, 'message': f'读取配置失败: {exc}'}), 500
+        return JSONResponse(
+            {'success': False, 'message': f'读取配置失败: {exc}'},
+            status_code=500,
+        )
 
 
-@app.route('/api/config', methods=['POST'])
-def update_config():
-    """Update configuration values and persist them to config.py."""
-    payload = request.get_json(silent=True) or {}
-    if not isinstance(payload, dict) or not payload:
-        return jsonify({'success': False, 'message': '请求体不能为空'}), 400
+@fastapi_app.post("/api/config")
+def update_config(payload: Optional[Dict[str, Any]] = Body(None)):
+    """Update configuration values and persist them to .env."""
+    payload = payload if isinstance(payload, dict) else {}
+    if not payload:
+        return JSONResponse(
+            {'success': False, 'message': '请求体不能为空'},
+            status_code=400,
+        )
 
     updates = {}
     for key, value in payload.items():
@@ -1222,61 +1226,74 @@ def update_config():
             updates[key] = value if value is not None else ''
 
     if not updates:
-        return jsonify({'success': False, 'message': '没有可更新的配置项'}), 400
+        return JSONResponse(
+            {'success': False, 'message': '没有可更新的配置项'},
+            status_code=400,
+        )
 
     try:
         write_config_values(updates)
         updated_config = read_config_values()
-        return jsonify({'success': True, 'config': updated_config})
+        return {'success': True, 'config': updated_config}
     except Exception as exc:
         logger.exception("更新配置失败")
-        return jsonify({'success': False, 'message': f'更新配置失败: {exc}'}), 500
+        return JSONResponse(
+            {'success': False, 'message': f'更新配置失败: {exc}'},
+            status_code=500,
+        )
 
 
-@app.route('/api/system/status')
+@fastapi_app.get("/api/system/status")
 def get_system_status():
     """返回系统启动状态。"""
     state = _get_system_state()
-    return jsonify({
+    return {
         'success': True,
         'started': state['started'],
         'starting': state['starting']
-    })
+    }
 
 
-@app.route('/api/system/start', methods=['POST'])
+@fastapi_app.post("/api/system/start")
 def start_system():
     """在接收到请求后启动完整系统。"""
     allowed, message = _prepare_system_start()
     if not allowed:
-        return jsonify({'success': False, 'message': message}), 400
+        return JSONResponse({'success': False, 'message': message}, status_code=400)
 
     try:
         success, logs, errors = initialize_system_components()
         if success:
             _set_system_state(started=True)
-            return jsonify({'success': True, 'message': '系统启动成功', 'logs': logs})
+            return {'success': True, 'message': '系统启动成功', 'logs': logs}
 
         _set_system_state(started=False)
-        return jsonify({
+        return JSONResponse({
             'success': False,
             'message': '系统启动失败',
             'logs': logs,
             'errors': errors
-        }), 500
+        }, status_code=500)
     except Exception as exc:  # pragma: no cover - 保底捕获
         logger.exception("系统启动过程中出现异常")
         _set_system_state(started=False)
-        return jsonify({'success': False, 'message': f'系统启动异常: {exc}'}), 500
+        return JSONResponse(
+            {'success': False, 'message': f'系统启动异常: {exc}'},
+            status_code=500,
+        )
     finally:
         _set_system_state(starting=False)
 
-@app.route('/api/system/shutdown', methods=['POST'])
+
+@fastapi_app.post("/api/system/shutdown")
 def shutdown_system():
     """优雅停止所有组件并关闭当前服务进程。"""
     state = _get_system_state()
     if state['starting']:
-        return jsonify({'success': False, 'message': '系统正在启动/重启，请稍候'}), 400
+        return JSONResponse(
+            {'success': False, 'message': '系统正在启动/重启，请稍候'},
+            status_code=400,
+        )
 
     target_ports = [
         f"{name}:{info['port']}"
@@ -1284,7 +1301,6 @@ def shutdown_system():
         if info.get('port')
     ]
 
-    # 已有关机请求执行中时，返回当前存活的子进程，便于前端判断进度
     if not _mark_shutdown_requested():
         running = _describe_running_children()
         detail = '关机指令已下发，请稍等...'
@@ -1292,7 +1308,7 @@ def shutdown_system():
             detail = f"关机指令已下发，等待进程退出: {', '.join(running)}"
         if target_ports:
             detail = f"{detail}（端口: {', '.join(target_ports)}）"
-        return jsonify({'success': True, 'message': detail, 'ports': target_ports})
+        return {'success': True, 'message': detail, 'ports': target_ports}
 
     running = _describe_running_children()
     if running:
@@ -1308,41 +1324,52 @@ def shutdown_system():
             message = f"{message}: {', '.join(running)}"
         if target_ports:
             message = f"{message}（端口: {', '.join(target_ports)}）"
-        return jsonify({'success': True, 'message': message, 'ports': target_ports})
+        return {'success': True, 'message': message, 'ports': target_ports}
     except Exception as exc:  # pragma: no cover - 兜底捕获
         logger.exception("系统关闭过程中出现异常")
-        return jsonify({'success': False, 'message': f'系统关闭异常: {exc}'}), 500
+        return JSONResponse(
+            {'success': False, 'message': f'系统关闭异常: {exc}'},
+            status_code=500,
+        )
 
-@socketio.on('connect')
-def handle_connect():
-    """客户端连接"""
-    emit('status', 'Connected to Flask server')
 
-@socketio.on('request_status')
-def handle_status_request():
+@sio.event
+async def connect(sid, environ):
+    """Socket.IO 客户端连接"""
+    await sio.emit('status', 'Connected to FastAPI server', room=sid)
+
+
+@sio.on('request_status')
+async def handle_status_request(sid):
     """请求状态更新"""
     check_app_status()
-    emit('status_update', {
-        app_name: {
+    await sio.emit('status_update', {
+        name: {
             'status': info['status'],
             'port': info['port']
         }
-        for app_name, info in processes.items()
+        for name, info in processes.items()
     })
 
+
 if __name__ == '__main__':
-    # 从配置文件读取 HOST 和 PORT
+    import uvicorn
+
     from config import settings
     HOST = settings.HOST
     PORT = settings.PORT
-    
+
     logger.info("等待配置确认，系统将在前端指令后启动组件...")
-    logger.info(f"Flask服务器已启动，访问地址: http://{HOST}:{PORT}")
-    
+    logger.info(f"FastAPI + Socket.IO 已启动，访问地址: http://{HOST}:{PORT}")
+
     try:
-        socketio.run(app, host=HOST, port=PORT, debug=False)
+        uvicorn.run(
+            socketio_app,
+            host=HOST,
+            port=PORT,
+            log_level="info",
+        )
     except KeyboardInterrupt:
         logger.info("\n正在关闭应用...")
         cleanup_processes()
-        
-    
+

@@ -73,5 +73,5 @@ RUN mkdir -p /ms-playwright logs final_reports insight_engine_streamlit_reports 
 
 EXPOSE 5000 8501 8502 8503
 
-# Default command launches the Flask orchestrator which starts Streamlit agents
+# Default command launches the FastAPI + Socket.IO orchestrator (starts Streamlit agents on demand)
 CMD ["python", "app.py"]

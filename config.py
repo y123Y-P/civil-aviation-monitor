@@ -25,9 +25,9 @@ class Settings(BaseSettings):
     全局配置；支持 .env 和环境变量自动加载。
     变量名与原 config.py 大写一致，便于平滑过渡。
     """
-    # ================== Flask 服务器配置 ====================
+    # ================== Web 服务器配置（FastAPI + uvicorn） ====================
     HOST: str = Field("0.0.0.0", description="BETTAFISH 主机地址，例如 0.0.0.0 或 127.0.0.1")
-    PORT: int = Field(5000, description="Flask服务器端口号，默认5000")
+    PORT: int = Field(5000, description="HTTP 服务端口，默认 5000")
 
     # ====================== 数据库配置 ======================
     DB_DIALECT: str = Field("postgresql", description="数据库类型，可选 mysql 或 postgresql；请与其他连接信息同时配置")
@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     FORUM_HOST_BASE_URL: Optional[str] = Field(None, description="Forum Host LLM BaseUrl，可按所选服务配置")
     FORUM_HOST_MODEL_NAME: Optional[str] = Field(None, description="Forum Host LLM 模型名称，例如 qwen-plus")
     
-    # SQL keyword Optimizer（小参数Qwen3模型，这里我使用了硅基流动这个平台，申请地址：https://cloud.siliconflow.cn/）
+    # SQL keyword Optimizer（小参数Qwen3模型，这里我使用了硅基流动这个1平台，申请地址：https://cloud.siliconflow.cn/）
     KEYWORD_OPTIMIZER_API_KEY: Optional[str] = Field(None, description="SQL Keyword Optimizer（推荐 qwen-plus，官方申请地址：https://www.aliyun.com/product/bailian）API 密钥")
     KEYWORD_OPTIMIZER_BASE_URL: Optional[str] = Field(None, description="Keyword Optimizer BaseUrl，可按所选服务配置")
     KEYWORD_OPTIMIZER_MODEL_NAME: Optional[str] = Field(None, description="Keyword Optimizer LLM 模型名称，例如 qwen-plus")
