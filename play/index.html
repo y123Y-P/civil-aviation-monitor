@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>项目跳转中心</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 28px;
+      font-size: 28px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .jump-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 88px;
+      border: none;
+      border-radius: 14px;
+      font-size: 22px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease;
+      color: #fff;
+    }
+
+    .jump-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .btn-civil {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    }
+
+    .btn-yxy {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+    }
+
+    .tips {
+      margin-top: 18px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>项目跳转中心</h1>
+    <section class="buttons">
+      <button class="jump-btn btn-civil" onclick="window.open('http://localhost:5001/login/', '_blank')">
+        打开民航舆情监控系统
+      </button>
+      <button class="jump-btn btn-yxy" onclick="window.open('http://localhost:5173/', '_blank')">
+        打开信息投放网站
+      </button>
+    </section>
+    <p class="tips">请先确保两个项目的前端服务已经启动。</p>
+  </main>
+</body>
+</html>
