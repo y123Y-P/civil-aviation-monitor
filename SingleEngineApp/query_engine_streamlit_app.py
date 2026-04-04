@@ -35,12 +35,12 @@ from utils.github_issues import error_with_issue_link
 def main():
     """主函数"""
     st.set_page_config(
-        page_title="Query Agent",
+        page_title="查询智能体",
         page_icon="",
         layout="wide"
     )
 
-    st.title("Query Agent")
+    st.title("查询智能体")
     st.markdown("具备强大网页搜索能力的AI代理")
     st.markdown("广度爬取官方报道与新闻，注重国内外资源相结合理解舆情")
 

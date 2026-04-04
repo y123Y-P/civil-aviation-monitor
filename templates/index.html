@@ -1588,7 +1588,8 @@
         }
 
         /* 不同Engine的颜色区分 */
-        .forum-message.agent:has(.forum-message-header:contains("Query Engine")) {
+        .forum-message.agent:has(.forum-message-header:contains("Query Engine")),
+        .forum-message.agent:has(.forum-message-header:contains("查询引擎")) {
             background-color: #eaf1f8;
             border-color: #608ab1;
         }
@@ -1598,7 +1599,8 @@
             border-color: #608ab1;
         }
 
-        .forum-message.agent:has(.forum-message-header:contains("Insight Engine")) {
+        .forum-message.agent:has(.forum-message-header:contains("Insight Engine")),
+        .forum-message.agent:has(.forum-message-header:contains("洞察引擎")) {
             background-color: #f2ebf3;
             border-color: #8e6a9f;
         }
@@ -1608,7 +1610,8 @@
             border-color: #8e6a9f;
         }
 
-        .forum-message.agent:has(.forum-message-header:contains("Media Engine")) {
+        .forum-message.agent:has(.forum-message-header:contains("Media Engine")),
+        .forum-message.agent:has(.forum-message-header:contains("媒体引擎")) {
             background-color: #ebf2ea;
             border-color: #6a9a6e;
         }
@@ -1920,16 +1923,16 @@
                     </div>
                     <div>
                         <h1 class="text-xl font-bold text-white tracking-wide">翼眸 <span class="text-sky-400 font-light">AERO-VISION</span></h1>
-                        <p class="text-[10px] text-slate-400 uppercase tracking-widest">Civil Aviation Sentiment Intelligence</p>
+                        <p class="text-[10px] text-slate-400 uppercase tracking-widest">民航舆情智能分析</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center space-x-6">
                     <div class="hidden md:flex items-center space-x-1 text-xs font-mono text-slate-400 bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-700">
                         <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span>SYSTEM ONLINE</span>
+                        <span>系统在线</span>
                         <span class="mx-1">|</span>
-                        <span>LLM AGENTS: <span class="text-sky-400">4/4 Active</span></span>
+                        <span>LLM 智能体：<span class="text-sky-400">4/4 运行中</span></span>
                     </div>
                     <button class="text-slate-300 hover:text-white transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
@@ -1988,7 +1991,7 @@
                             <div class="upload-status" id="uploadStatus"></div>
                             <!-- 热门关键词推荐 -->
                             <div class="flex flex-wrap gap-2 items-center justify-center">
-                                <span class="text-xs text-slate-500 font-mono mr-2">HOT TOPICS:</span>
+                                <span class="text-xs text-slate-500 font-mono mr-2">热门话题：</span>
                                 <button onclick="setKeyword('夏季雷雨延误')" class="text-xs bg-slate-800 hover:bg-sky-900/50 text-slate-400 hover:text-sky-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"># 夏季雷雨延误</button>
                                 <button onclick="setKeyword('机上充电宝安全')" class="text-xs bg-slate-800 hover:bg-sky-900/50 text-slate-400 hover:text-sky-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"># 机上充电宝安全</button>
                                 <button onclick="setKeyword('国际航线复航')" class="text-xs bg-slate-800 hover:bg-sky-900/50 text-slate-400 hover:text-sky-300 px-3 py-1.5 rounded-lg border border-slate-700 transition"># 国际航线复航</button>
@@ -2007,7 +2010,7 @@
                             <div class="w-3 h-3 bg-sky-500 rounded-full animate-ping absolute"></div>
                             <div class="w-3 h-3 bg-sky-500 rounded-full relative"></div>
                         </div>
-                        <h3 class="font-mono text-sky-400 text-sm uppercase tracking-wider">Task ID: <span id="task-id-display" class="text-white">WAITING...</span></h3>
+                        <h3 class="font-mono text-sky-400 text-sm uppercase tracking-wider">任务 ID：<span id="task-id-display" class="text-white">等待中...</span></h3>
                     </div>
                     <div class="font-mono text-slate-400 text-sm" id="timer">00:00:00</div>
                 </div>
@@ -2024,7 +2027,7 @@
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 transition-colors">
                                 <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">INSIGHT<br>Agent</span>
+                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">洞察<br>智能体</span>
                         </div>
 
                         <!-- 节点 2: Media Engine -->
@@ -2032,7 +2035,7 @@
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 transition-colors">
                                 <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                             </div>
-                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">MEDIA<br>Engine</span>
+                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">媒体<br>引擎</span>
                         </div>
 
                         <!-- 节点 3: Query Engine -->
@@ -2040,7 +2043,7 @@
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 transition-colors">
                                 <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
-                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">QUERY<br>Engine</span>
+                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">查询<br>引擎</span>
                         </div>
                     </div>
 
@@ -2051,7 +2054,7 @@
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 transition-colors">
                                 <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
                             </div>
-                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">FORUM<br>Engine</span>
+                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">论坛<br>引擎</span>
                         </div>
 
                         <!-- 节点 5: Report Engine -->
@@ -2059,7 +2062,7 @@
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-600 transition-colors">
                                 <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                             </div>
-                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">REPORT<br>Engine</span>
+                            <span class="text-[10px] text-slate-400 font-mono text-center leading-tight">报告<br>引擎</span>
                         </div>
                     </div>
                 </div>
@@ -2077,7 +2080,7 @@
                             <!-- 动态插入图标 -->
                         </div>
                         <div class="agent-detail-title-group">
-                            <h2 id="detail-agent-title" class="agent-detail-title">Agent Detail</h2>
+                            <h2 id="detail-agent-title" class="agent-detail-title">智能体详情</h2>
                             <p id="detail-agent-subtitle" class="agent-detail-subtitle">模块详情</p>
                         </div>
                     </div>
@@ -2120,23 +2123,23 @@
                         <div class="app-switcher">
                             <button class="app-button" data-app="insight" onclick="switchDetailApp('insight')">
                                 <span class="status-indicator" id="detail-status-insight"></span>
-                                Insight Engine
+                                洞察引擎
                             </button>
                             <button class="app-button" data-app="media" onclick="switchDetailApp('media')">
                                 <span class="status-indicator" id="detail-status-media"></span>
-                                Media Engine
+                                媒体引擎
                             </button>
                             <button class="app-button" data-app="query" onclick="switchDetailApp('query')">
                                 <span class="status-indicator" id="detail-status-query"></span>
-                                Query Engine
+                                查询引擎
                             </button>
                             <button class="app-button" data-app="forum" onclick="switchDetailApp('forum')">
                                 <span class="status-indicator" id="detail-status-forum"></span>
-                                Forum Engine
+                                论坛引擎
                             </button>
-                            <button class="app-button locked" data-app="report" onclick="switchDetailApp('report')" title="需等待其余三个Agent工作完毕">
+                            <button class="app-button locked" data-app="report" onclick="switchDetailApp('report')" title="需等待其余三个智能体工作完毕">
                                 <span class="status-indicator" id="detail-status-report"></span>
-                                Report Engine
+                                报告引擎
                             </button>
                         </div>
 
@@ -2630,56 +2633,56 @@
                 ]
             },
             {
-                title: 'Insight Agent',
+                title: '洞察智能体',
                 subtitle: 'OpenAi接入格式，推荐LLM：kimi-k2',
                 fields: [
-                    { key: 'INSIGHT_ENGINE_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'INSIGHT_ENGINE_BASE_URL', label: 'Base URL' },
+                    { key: 'INSIGHT_ENGINE_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'INSIGHT_ENGINE_BASE_URL', label: '基础 URL' },
                     { key: 'INSIGHT_ENGINE_MODEL_NAME', label: '模型名称' }
                 ]
             },
             {
-                title: 'Media Agent',
+                title: '媒体智能体',
                 subtitle: 'OpenAi接入格式，推荐LLM：gemini-2.5-pro',
                 fields: [
-                    { key: 'MEDIA_ENGINE_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'MEDIA_ENGINE_BASE_URL', label: 'Base URL' },
+                    { key: 'MEDIA_ENGINE_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'MEDIA_ENGINE_BASE_URL', label: '基础 URL' },
                     { key: 'MEDIA_ENGINE_MODEL_NAME', label: '模型名称' }
                 ]
             },
             {
-                title: 'Query Agent',
+                title: '查询智能体',
                 subtitle: 'OpenAi接入格式，推荐LLM：deepseek-chat',
                 fields: [
-                    { key: 'QUERY_ENGINE_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'QUERY_ENGINE_BASE_URL', label: 'Base URL' },
+                    { key: 'QUERY_ENGINE_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'QUERY_ENGINE_BASE_URL', label: '基础 URL' },
                     { key: 'QUERY_ENGINE_MODEL_NAME', label: '模型名称' }
                 ]
             },
             {
-                title: 'Report Agent',
+                title: '报告智能体',
                 subtitle: 'OpenAi接入格式，推荐LLM：gemini-2.5-pro',
                 fields: [
-                    { key: 'REPORT_ENGINE_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'REPORT_ENGINE_BASE_URL', label: 'Base URL' },
+                    { key: 'REPORT_ENGINE_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'REPORT_ENGINE_BASE_URL', label: '基础 URL' },
                     { key: 'REPORT_ENGINE_MODEL_NAME', label: '模型名称' }
                 ]
             },
             {
-                title: 'Forum Host',
+                title: '论坛主持智能体（Forum Host）',
                 subtitle: 'OpenAi接入格式，推荐LLM：qwen-plus',
                 fields: [
-                    { key: 'FORUM_HOST_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'FORUM_HOST_BASE_URL', label: 'Base URL' },
+                    { key: 'FORUM_HOST_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'FORUM_HOST_BASE_URL', label: '基础 URL' },
                     { key: 'FORUM_HOST_MODEL_NAME', label: '模型名称' }
                 ]
             },
             {
-                title: 'Keyword Optimizer',
+                title: '关键词优化器（Keyword Optimizer）',
                 subtitle: 'OpenAi接入格式，推荐LLM：qwen-plus',
                 fields: [
-                    { key: 'KEYWORD_OPTIMIZER_API_KEY', label: 'API Key', type: 'password' },
-                    { key: 'KEYWORD_OPTIMIZER_BASE_URL', label: 'Base URL' },
+                    { key: 'KEYWORD_OPTIMIZER_API_KEY', label: 'API 密钥', type: 'password' },
+                    { key: 'KEYWORD_OPTIMIZER_BASE_URL', label: '基础 URL' },
                     { key: 'KEYWORD_OPTIMIZER_MODEL_NAME', label: '模型名称' }
                 ]
             },
@@ -2693,29 +2696,29 @@
                         type: 'select',
                         options: ['BochaAPI', 'AnspireAPI']
                     },
-                    { key: 'TAVILY_API_KEY', label: 'Tavily API Key', type: 'password' },
-                    { key: 'BOCHA_WEB_SEARCH_API_KEY', label: 'Bocha API Key', type: 'password', condition: { key: 'SEARCH_TOOL_TYPE', value: 'BochaAPI' } },
-                    { key: 'ANSPIRE_API_KEY', label: 'Anspire API Key', type: 'password', condition: { key: 'SEARCH_TOOL_TYPE', value: 'AnspireAPI' } }
+                    { key: 'TAVILY_API_KEY', label: 'Tavily API 密钥', type: 'password' },
+                    { key: 'BOCHA_WEB_SEARCH_API_KEY', label: 'Bocha API 密钥', type: 'password', condition: { key: 'SEARCH_TOOL_TYPE', value: 'BochaAPI' } },
+                    { key: 'ANSPIRE_API_KEY', label: 'Anspire API 密钥', type: 'password', condition: { key: 'SEARCH_TOOL_TYPE', value: 'AnspireAPI' } }
                 ]
             }
         ];
 
         // 应用名称映射
         const appNames = {
-            insight: 'Insight Engine',
-            media: 'Media Engine', 
-            query: 'Query Engine',
-            forum: 'Forum Engine',
-            report: 'Report Engine'
+            insight: '洞察引擎',
+            media: '媒体引擎', 
+            query: '查询引擎',
+            forum: '论坛引擎',
+            report: '报告引擎'
         };
 
         // 页面头部显示的完整Agent介绍
         const agentTitles = {
-            insight: 'Insight Agent - 私有数据库挖掘',
-            media: 'Media Agent - 多模态内容分析',
-            query: 'Query Agent - 精准信息搜索',
-            forum: 'Forum Engine - 多智能体交流',
-            report: 'Report Agent - 最终报告生成'
+            insight: '洞察智能体 - 私有数据库挖掘',
+            media: '媒体智能体 - 多模态内容分析',
+            query: '查询智能体 - 精准信息搜索',
+            forum: '论坛引擎 - 多智能体交流',
+            report: '报告智能体 - 最终报告生成'
         };
 
         // Agent 图标 SVG 映射
@@ -2783,7 +2786,7 @@
             if (app === 'report') {
                 const reportButton = document.querySelector('#agent-detail-page [data-app="report"]');
                 if (reportButton && reportButton.classList.contains('locked')) {
-                    showMessage('需等待其余三个Agent工作完毕', 'error');
+                    showMessage('需等待其余三个智能体工作完毕', 'error');
                     return;
                 }
             }
@@ -3584,7 +3587,7 @@
 
             if (strongText) {
                 strongText.textContent = runningAgents.length > 0
-                    ? '部分 Agent 正在运行，确定要关闭吗？'
+                    ? '部分智能体正在运行，确定要关闭吗？'
                     : '确定要关闭系统吗？';
             }
 
@@ -3867,7 +3870,7 @@
             if (app === 'report') {
                 const reportButton = document.querySelector(`[data-app="report"]`);
                 if (reportButton && reportButton.classList.contains('locked')) {
-                    showMessage('需等待其余三个Agent工作完毕', 'error');
+                    showMessage('需等待其余三个智能体工作完毕', 'error');
                     return;
                 }
             }
@@ -4376,7 +4379,7 @@ function getConsoleContainer() {
 
             // 如果是Forum Engine，直接显示论坛界面
             if (app === 'forum') {
-                header.textContent = 'Forum Engine - 多智能体交流';
+                header.textContent = '论坛引擎 - 多智能体交流';
 
                 // 隐藏所有iframe
                 Object.values(preloadedIframes).forEach(iframe => {
@@ -4402,7 +4405,7 @@ function getConsoleContainer() {
 
             // 如果是Report Engine，显示报告界面
             if (app === 'report') {
-                header.textContent = 'Report Agent - 最终报告生成';
+                header.textContent = '报告智能体 - 最终报告生成';
 
                 // 隐藏所有iframe
                 Object.values(preloadedIframes).forEach(iframe => {
@@ -4903,7 +4906,7 @@ function getConsoleContainer() {
             lastLineCount['report'] = 0;
 
             clearConsoleLayer('report', `[系统] ${reason}`);
-            resetReportStreamOutput('Report Engine 正在启动...');
+            resetReportStreamOutput('报告引擎正在启动...');
 
             // 重新启动轮询，确保新任务日志即时接入
             reportLogManager.start();
@@ -5120,7 +5123,7 @@ function getConsoleContainer() {
 
                 // 清空并重新加载日志
                 if (logLines.length > 0) {
-                    clearConsoleLayer('forum', '[系统] Forum Engine 历史日志');
+                    clearConsoleLayer('forum', '[系统] 论坛引擎历史日志');
                     logRenderers['forum'].render(); // 立即渲染清空提示
 
                     // 批量添加历史日志，避免卡顿
@@ -5139,7 +5142,7 @@ function getConsoleContainer() {
 
                     addBatch();
                 } else {
-                    clearConsoleLayer('forum', '[系统] Forum Engine 暂无日志');
+                    clearConsoleLayer('forum', '[系统] 论坛引擎暂无日志');
                 }
 
                 // 同时获取解析的消息（用于聊天区域）
@@ -5210,7 +5213,7 @@ function getConsoleContainer() {
                 if (data.success && data.engines_ready) {
                     // 文件准备就绪，解锁按钮
                     reportButton.classList.remove('locked');
-                    reportButton.title = 'Report Engine - 智能报告生成\n所有引擎都有新文件，可以生成报告';
+                    reportButton.title = '报告引擎 - 智能报告生成\n所有引擎都有新文件，可以生成报告';
                     
                     // 检查是否已经有报告在显示
                     const reportPreview = document.getElementById('reportPreview');
@@ -5234,7 +5237,7 @@ function getConsoleContainer() {
                     if (data.missing_files && data.missing_files.length > 0) {
                         titleInfo += '等待新文件:\n' + data.missing_files.join('\n');
                     } else {
-                        titleInfo += '等待三个Agent工作完毕';
+                        titleInfo += '等待三个智能体工作完毕';
                     }
                     
                     reportButton.title = titleInfo;
@@ -5245,7 +5248,7 @@ function getConsoleContainer() {
                 // 出错时默认锁定
                 const reportButton = document.querySelector('[data-app="report"]');
                 reportButton.classList.add('locked');
-                reportButton.title = 'Report Engine状态检查失败';
+                reportButton.title = '报告引擎状态检查失败';
             });
         }
 
@@ -5264,7 +5267,7 @@ function getConsoleContainer() {
             // 使用新的日志管理器
             if (!reportLogManager.isRunning) {
                 // 清空控制台
-                clearConsoleLayer('report', '[系统] Report Engine 日志监控已启动');
+                clearConsoleLayer('report', '[系统] 报告引擎日志监控已启动');
 
                 // 重置计数器并启动
                 reportLogManager.reset();
@@ -5304,17 +5307,17 @@ function getConsoleContainer() {
                 
                 switch(source.toUpperCase()) {
                     case 'INSIGHT':
-                        displayName = 'Insight Engine';
+                        displayName = '洞察引擎';
                         break;
                     case 'MEDIA':
-                        displayName = 'Media Engine';
+                        displayName = '媒体引擎';
                         break;
                     case 'QUERY':
-                        displayName = 'Query Engine';
+                        displayName = '查询引擎';
                         break;
                     case 'HOST':
                         messageType = 'host';
-                        displayName = 'Forum Host';
+                        displayName = '论坛主持智能体';
                         break;
                 }
                 
@@ -5565,7 +5568,7 @@ function getConsoleContainer() {
                     }
                     const reportButton = document.querySelector('[data-app="report"]');
                     if (reportButton && reportButton.classList.contains('locked')) {
-                        showMessage('需等待三个Agent完成最新分析后才能生成最终报告', 'error');
+                        showMessage('需等待三个智能体完成最新分析后才能生成最终报告', 'error');
                         return;
                     }
                     generateReport();
@@ -5911,7 +5914,7 @@ function getConsoleContainer() {
 
             const reportButton = document.querySelector('[data-app="report"]');
             if (reportButton && reportButton.classList.contains('locked')) {
-                showMessage('需等待三个Agent完成最新分析后才能生成最终报告', 'error');
+                showMessage('需等待三个智能体完成最新分析后才能生成最终报告', 'error');
                 return;
             }
 
@@ -5925,7 +5928,7 @@ function getConsoleContainer() {
             
             // 清空控制台显示
             clearConsoleLayer('report', '[系统] 开始生成报告，日志已重置');
-            resetReportStreamOutput('Report Engine 正在调度任务...');
+            resetReportStreamOutput('报告引擎正在调度任务...');
             
             setGenerateButtonState(true);
 
@@ -6178,7 +6181,7 @@ function getConsoleContainer() {
         function startStreamHeartbeat() {
             clearStreamHeartbeat();
             const emitHeartbeat = () => {
-                appendReportStreamLine('Report Engine 正在流式生成，请耐心等待...', 'info', { badge: 'REPORT', force: true });
+                appendReportStreamLine('报告引擎正在流式生成，请耐心等待...', 'info', { badge: 'REPORT', force: true });
             };
 
             const scheduleFirstTick = () => {
@@ -6234,7 +6237,7 @@ function getConsoleContainer() {
 
             updateReportStreamStatus('connecting');
             appendReportStreamLine(
-                isRetry ? '尝试重连Report Engine流式通道...' : '正在建立Report Engine流式连接...',
+                isRetry ? '尝试重连报告引擎流式通道...' : '正在建立报告引擎流式连接...',
                 'info',
                 { badge: 'SSE', force: true }
             );
@@ -6244,7 +6247,7 @@ function getConsoleContainer() {
             reportEventSource.onopen = () => {
                 reportStreamRetryDelay = 3000;
                 updateReportStreamStatus('connected');
-                appendReportStreamLine(isRetry ? 'SSE重连成功' : 'Report Engine流式连接已建立', 'success', { badge: 'SSE' });
+                appendReportStreamLine(isRetry ? 'SSE重连成功' : '报告引擎流式连接已建立', 'success', { badge: 'SSE' });
                 reportLogStreaming = true;
                 // SSE已经推送日志，关闭轮询避免重复
                 reportLogManager.stop();
@@ -6347,7 +6350,7 @@ function getConsoleContainer() {
                         'info',
                         {
                             badge: payload.stage || '阶段',
-                            genericMessage: 'Report Engine 正在逐步生成，请耐心等待...'
+                            genericMessage: '报告引擎正在逐步生成，请耐心等待...'
                         }
                     );
                     break;
@@ -6672,14 +6675,14 @@ function getConsoleContainer() {
                 let statusHTML = '';
                 if (statusData.initialized) {
                     statusHTML = `
-                        <strong>ReportEngine状态:</strong> 已初始化<br>
+                        <strong>报告引擎状态：</strong> 已初始化<br>
                         <strong>文件检查:</strong> ${statusData.engines_ready ? '准备就绪' : '文件未就绪'}<br>
                         <strong>找到文件:</strong> ${statusData.files_found ? statusData.files_found.join(', ') : '无'}<br>
                         ${statusData.missing_files && statusData.missing_files.length > 0 ? 
                           `<strong>缺失文件:</strong> ${statusData.missing_files.join(', ')}` : ''}
                     `;
                 } else {
-                    statusHTML = `<strong>ReportEngine状态:</strong> 未初始化`;
+                    statusHTML = `<strong>报告引擎状态：</strong> 未初始化`;
                 }
                 
                 // 更新内容和样式

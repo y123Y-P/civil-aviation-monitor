@@ -35,12 +35,12 @@ from utils.github_issues import error_with_issue_link
 def main():
     """主函数"""
     st.set_page_config(
-        page_title="Insight Agent",
+        page_title="洞察智能体",
         page_icon="",
         layout="wide"
     )
 
-    st.title("Insight Agent")
+    st.title("洞察智能体")
     st.markdown("私有舆情数据库深度分析AI代理")
     st.markdown("24小时全自动从包括微博、知乎、github、酷安等 13个 社媒平台、技术论坛广泛的爬取舆情数据")
 

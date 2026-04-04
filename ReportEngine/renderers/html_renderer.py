@@ -1094,7 +1094,7 @@ class HTMLRenderer:
             self._current_chapter = prev_chapter
         return f'<section id="{section_id}" class="chapter">\n{blocks_html}\n</section>'
 
-    def _render_blocks(self, blocks: List[Dict[str, Any]]) -> str:
+    def _render_blocks(self, blocks: Any) -> str:
         """
         顺序渲染章节内所有block。
 
@@ -1104,7 +1104,17 @@ class HTMLRenderer:
         返回:
             str: 拼接后的HTML。
         """
-        return "".join(self._render_block(block) for block in blocks or [])
+        normalized_blocks: List[Any]
+        if blocks is None:
+            normalized_blocks = []
+        elif isinstance(blocks, list):
+            normalized_blocks = blocks
+        elif isinstance(blocks, dict):
+            # 容错: 个别脏数据会把单个 block 直接塞进 blocks
+            normalized_blocks = [blocks]
+        else:
+            normalized_blocks = [blocks]
+        return "".join(self._render_block(block) for block in normalized_blocks)
 
     def _render_block(self, block: Dict[str, Any]) -> str:
         """
@@ -1265,7 +1275,17 @@ class HTMLRenderer:
         extra_class = "task-list" if list_type == "task" else ""
         items_html = ""
         for item in block.get("items", []):
-            content = self._render_blocks(item)
+            if isinstance(item, list):
+                item_blocks = item
+            elif isinstance(item, dict):
+                # 容错: 期望是 [block, ...]，实际偶发直接给 block 对象
+                item_blocks = [item]
+            elif isinstance(item, str):
+                item_blocks = [{"type": "paragraph", "inlines": [{"text": item}]}]
+            else:
+                item_blocks = []
+
+            content = self._render_blocks(item_blocks)
             if not content.strip():
                 continue
             items_html += f"<li>{content}</li>"
