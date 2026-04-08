@@ -1,0 +1,5 @@
+# 文件名:.gitmodules
+# 功能:.gitmodules 相关实现
+[submodule "MindSpider/DeepSentimentCrawling/MediaCrawler"]
+	path = MindSpider/DeepSentimentCrawling/MediaCrawler
+	url = https://github.com/NanmiCoder/MediaCrawler

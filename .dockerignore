@@ -1,0 +1,14 @@
+# 文件名:.dockerignore
+# 功能:.dockerignore 相关实现
+.git
+.gitmodules
+.vscode
+.cursor
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+.DS_Store
+Thumbs.db

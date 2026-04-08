@@ -1,0 +1,21 @@
+# 文件名: Users\24704\Desktop\civil-aviation-monitor-main\yxy-project\frontend\tsconfig.json
+# 功能: 模块功能实现
+
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "strict": true,
+    "types": ["vite/client"]
+  },
+  "include": ["src"]
+}
+

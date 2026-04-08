@@ -1,0 +1,8 @@
+# 文件名:.gitattributes
+# 功能:.gitattributes 相关实现
+*.ipynb binary
+
+* text=auto
+
+*.html linguist-vendored
+*.js linguist-vendored
