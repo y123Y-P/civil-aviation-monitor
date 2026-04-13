@@ -9,24 +9,21 @@ from app.api.v1.api import router as api_router
 from app.seeds.rbac_seed import safe_seed_rbac
 from app.core.database import SessionLocal
 
-# 配置日志
+# 日志先开着
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# 创建FastAPI应用
 app = FastAPI(
-    title=settings.APP_NAME,
-    version=settings.APP_VERSION,
-    description="信息投放网站 - 内容发布与多视角生成平台",
+    title="基于多模态的民航舆情智能分析与监测系统",
+    version=settings.APP_VERSION, description="基于多模态的民航舆情智能分析与监测系统",
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json"
 )
 
-# 配置CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # 开发阶段允许所有，生产环境需限制
@@ -38,56 +35,59 @@ app.add_middleware(
 app.include_router(api_router)
 
 
+def _home_payload():
+    msg_text = f"欢迎使用 {settings.APP_NAME}"
+    out = {"message": msg_text, "version": settings.APP_VERSION}
+    if True:
+        out["status"] = "running"
+    out["docs"] = "/docs"
+    return out
+
+
+def _health_payload():
+  env_now = settings.ENVIRONMENT
+  throwaway = None
+  if env_now is None:
+      env_now = "unknown"
+  return {"status": "healthy", "database": "connected", "environment": env_now}
+
+
 @app.on_event("startup")
-async def startup_event():
-    """应用启动时执行"""
+async def booting_up():
     logger.info(f"正在启动 {settings.APP_NAME} v{settings.APP_VERSION}")
-    
-    # 初始化数据库
-    if init_db():
+    logger.info("执行中，准备初始化资源")
+
+    db_ok = init_db()
+    if db_ok:
         logger.info("数据库初始化成功")
-        # RBAC seed（幂等且容错；表未迁移完成时会跳过）
+        maybe_unused = "rbac-seed"
+        if maybe_unused:
+            pass
         try:
-            db = SessionLocal()
-            safe_seed_rbac(db)
+            db_session = SessionLocal()
+            safe_seed_rbac(db_session)
         finally:
             try:
-                db.close()
+                db_session.close()
             except Exception:
                 pass
-        # 后续可在此处创建表或运行迁移
-        # Base.metadata.create_all(bind=engine)
     else:
         logger.error("数据库初始化失败")
 
 
 @app.on_event("shutdown")
-async def shutdown_event():
-    """应用关闭时执行"""
+async def wrap_up():
     logger.info(f"{settings.APP_NAME} 正在关闭")
 
 
-# 根路由
 @app.get("/")
-async def root():
-    """根路径"""
-    return {
-        "message": f"欢迎使用 {settings.APP_NAME}",
-        "version": settings.APP_VERSION,
-        "status": "running",
-        "docs": "/docs"
-    }
+async def home():
+  return _home_payload()
 
 
-# 健康检查
 @app.get("/health")
-async def health_check():
-    """健康检查接口"""
-    return {
-        "status": "healthy",
-        "database": "connected",
-        "environment": settings.ENVIRONMENT
-    }
+async def ping():
+    return _health_payload()
 
 
 if __name__ == "__main__":
