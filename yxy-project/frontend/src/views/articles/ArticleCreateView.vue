@@ -19,6 +19,7 @@
 
       <div style="display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap">
         <el-button type="primary" :disabled="loading" @click="onCreate">创建并编辑</el-button>
+        <el-button type="warning" @click="openAIHelper">AI辅助写作</el-button>
         <el-button @click="router.push('/console/articles')">返回</el-button>
       </div>
     </el-card>
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { createArticle } from "../../api/articles";
@@ -44,6 +45,37 @@ const form = reactive<ArticleCreate>({
   status: "draft",
   source_type: "manual",
   source_url: null,
+});
+
+let aiWindow: Window | null = null;
+let aiToken: string = "";
+
+function openAIHelper() {
+  aiToken = "ai_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+  const url = "http://10.11.221.223:8501/?token=" + encodeURIComponent(aiToken);
+  aiWindow = window.open(url, "aiHelper", "width=900,height=700");
+}
+
+function handleMessage(event: MessageEvent) {
+  const data = event.data;
+  if (data && data.type === "ai_article" && data.token === aiToken) {
+    if (data.title) form.title = data.title;
+    if (data.summary) form.summary = data.summary;
+    if (data.content) form.content = data.content;
+    ElMessage.success("已收到AI生成的文章");
+    if (aiWindow) {
+      aiWindow.close();
+      aiWindow = null;
+    }
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("message", handleMessage);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("message", handleMessage);
 });
 
 async function onCreate() {
