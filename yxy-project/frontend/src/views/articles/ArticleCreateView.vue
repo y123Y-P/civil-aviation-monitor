@@ -52,7 +52,7 @@ let aiToken: string = "";
 
 function openAIHelper() {
   aiToken = "ai_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
-  const url = "http://10.11.221.223:8501/?token=" + encodeURIComponent(aiToken);
+  const url = "http://localhost:8501/?token=" + encodeURIComponent(aiToken);
   aiWindow = window.open(url, "aiHelper", "width=900,height=700");
 }
 

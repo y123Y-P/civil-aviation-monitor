@@ -120,8 +120,18 @@ async function onDelete() {
 }
 
 async function onSubmitForReview() {
+  if (!form.title?.trim() || !form.content?.trim()) {
+    ElMessage.warning("标题和正文不能为空");
+    return;
+  }
+
   saving.value = true;
   try {
+    await updateArticleDetail(articleId.value, {
+      title: form.title,
+      summary: form.summary || null,
+      content: form.content,
+    });
     await submitArticleForReview(articleId.value);
     ElMessage.success("提交审核成功");
     await fetchDetail();

@@ -3,6 +3,7 @@ from openai import OpenAI
 import os
 import sys
 import json
+import re
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import settings
@@ -36,7 +37,7 @@ with st.sidebar:
 
     system_prompt = st.text_area(
         "System Prompt",
-        value="You are a helpful assistant.",
+        value="你是一个专业的文章写作助手。请严格按照以下格式回复：\n\n【标题】\n<在此处写出文章标题>\n\n【摘要】\n<在此处写出100-200字的摘要>\n\n【正文】\n<在此处写出文章正文内容>",
         placeholder="设置系统提示词...",
     )
 
@@ -95,7 +96,27 @@ if user_input:
                     {"role": "assistant", "content": full_response}
                 )
 
-                escaped_content = json.dumps(full_response, ensure_ascii=False)
+                parsed_title = ""
+                parsed_summary = ""
+                parsed_content = ""
+
+                title_match = re.search(r"【标题】\s*(.+?)(?=\n【摘要】|\n【正文】|\Z)", full_response, re.DOTALL)
+                summary_match = re.search(r"【摘要】\s*(.+?)(?=\n【正文】|\Z)", full_response, re.DOTALL)
+                content_match = re.search(r"【正文】\s*(.+?)(?=\Z)", full_response, re.DOTALL)
+
+                if title_match:
+                    parsed_title = title_match.group(1).strip()
+                if summary_match:
+                    parsed_summary = summary_match.group(1).strip()
+                if content_match:
+                    parsed_content = content_match.group(1).strip()
+
+                if not parsed_title and not parsed_content:
+                    parsed_content = full_response.strip()
+
+                escaped_title = json.dumps(parsed_title, ensure_ascii=False)
+                escaped_summary = json.dumps(parsed_summary, ensure_ascii=False)
+                escaped_content = json.dumps(parsed_content, ensure_ascii=False)
                 escaped_token = json.dumps(ai_token, ensure_ascii=False)
                 st.components.v1.html(f"""
                 <div style="display:flex;justify-content:flex-end;margin-top:12px">
@@ -105,12 +126,16 @@ if user_input:
                 </div>
                 <script>
                 function sendArticle() {{
+                  var title = {escaped_title};
+                  var summary = {escaped_summary};
                   var content = {escaped_content};
                   var token = {escaped_token};
                   if (window.top.opener) {{
                     window.top.opener.postMessage({{
                       type: 'ai_article',
                       token: token,
+                      title: title,
+                      summary: summary,
                       content: content
                     }}, '*');
                   }} else {{
